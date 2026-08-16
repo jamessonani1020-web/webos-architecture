@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+    <title>SystemOS Architecture</title>title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id=OS-body></body>
+    <div class="menubar">
+        <div class="menyu-left">></div>
+        <span class="apple-logo"></span>
+        <strong>systemOS</strong>
+        <span>File</span>
+        <span>Edit</span>
+        <span>Vies</span>
+        <span>window</span>
+        <spen>Help</spen>
+    </div>
+    <div class="menu-right"></div>
+        <span>Status: Stealth</span>
+        <span>⚡ 100%</span>
+        <span>📶</span>   
+        <span id="clock">12:00 AM</span>
+    </div>
+</div>
+
+<div id="desktop"></div>
+<div class="dock">
+    <div class="dock">
+        <div class="dock-icon" oneclick="openApp('notepad')" title="Notes">
+            <svg viewBox="0 0 64 64" width="100%" height="100%"> 
+                <defs>
+                    <linearGradient id="notesBg" x1="0%" y1="0%" x2="0%" y2=100%>
+                        <stop offset="0%" stop-color="#fff4b8" />
+                        <stop offset="100%" stop-color="#b71c1c" />
+                    </linearGradient>
+        </defs>
+        <rect x="8" y="6" width="48" height="52" rx="10" fill="url(#notesBg)"
+             filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+        <path d="m 8 16 L 65 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z"
+                fill="url(#notesHeader)" />
+        <line x1="16" y1="26" x2="50" y2="26" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="16" y1="35" x2="50" y2="34" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="16" y1="44" x2="50" y2="42" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
+    </svg>
+</div>
+<div class="dock-icon" onclick="openApp('browser')" title="Browser">
+    <svg viewBox="0 0 64 64" width="100%" height="100%">
+        <defs>
+            <linearGradient id="browserBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#E8EAED" />
+            </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#browserBg)"
+              filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+        <path 
+           d="M 32 43.1 32.8 C 31.4 30.1 42.7 28.8 L 32 35.7 L 38.3 35.7 C 38 37.3 37.1 38.7 35.7 39.6 L 35.7 42.9 L 39.8 42.9 C 42.3 40.6 43.1 37 43.1 32.8 Z"
+              fill="#4285F4" />
+        <path  
+            d="M 32 43.1 32.8 C 35.3 44.1 38 43 41.2 L 35.9 38 C 34.8 38.8 
 
