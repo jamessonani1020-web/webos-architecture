@@ -1,64 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-    <title>SystemOS Architecture</title>title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SystemOS Architecture</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body id=OS-body></body>
-    <div class="menubar">
-        <div class="menyu-left">></div>
-        <span class="apple-logo"></span>
-        <strong>systemOS</strong>
-        <span>File</span>
-        <span>Edit</span>
-        <span>Vies</span>
-        <span>window</span>
-        <spen>Help</spen>
-    </div>
-    <div class="menu-right"></div>
-        <span>Status: Stealth</span>
-        <span>⚡ 100%</span>
-        <span>📶</span>   
-        <span id="clock">12:00 AM</span>
-    </div>
-</div>
+<body id="os-body">
 
-<div id="desktop"></div>
-<div class="dock">
-    <div class="dock">
-        <div class="dock-icon" oneclick="openApp('notepad')" title="Notes">
-            <svg viewBox="0 0 64 64" width="100%" height="100%"> 
-                <defs>
-                    <linearGradient id="notesBg" x1="0%" y1="0%" x2="0%" y2=100%>
-                        <stop offset="0%" stop-color="#fff4b8" />
-                        <stop offset="100%" stop-color="#b71c1c" />
-                    </linearGradient>
-        </defs>
-        <rect x="8" y="6" width="48" height="52" rx="10" fill="url(#notesBg)"
-             filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-        <path d="m 8 16 L 65 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z"
-                fill="url(#notesHeader)" />
-        <line x1="16" y1="26" x2="50" y2="26" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
-        <line x1="16" y1="35" x2="50" y2="34" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
-        <line x1="16" y1="44" x2="50" y2="42" stroke="#d4a72c" stroke-width="2.5" stroke-linecap="round" />
-    </svg>
-</div>
-<div class="dock-icon" onclick="openApp('browser')" title="Browser">
-    <svg viewBox="0 0 64 64" width="100%" height="100%">
-        <defs>
-            <linearGradient id="browserBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ffffff" />
-                <stop offset="100%" stop-color="#E8EAED" />
-            </linearGradient>
-        </defs>
-        <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#browserBg)"
-              filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-        <path 
-           d="M 32 43.1 32.8 C 31.4 30.1 42.7 28.8 L 32 35.7 L 38.3 35.7 C 38 37.3 37.1 38.7 35.7 39.6 L 35.7 42.9 L 39.8 42.9 C 42.3 40.6 43.1 37 43.1 32.8 Z"
-              fill="#4285F4" />
-        <path  
-            d="M 32 43.1 32.8 C 35.3 44.1 38 43 41.2 L 35.9 38 C 34.8 38.8 
+    <div class="menubar">
+        <div class="menu-left">
+            <span class="apple-logo"></span>
+            <strong>SystemOS</strong>
+            <span>File</span>
+            <span>Edit</span>
+            <span>View</span>
+            <span>Window</span>
+            <span>Help</span>
+        </div>
+        <div class="menu-right">
+            <span>Status: Stealth</span>
+            <span>⚡ 100%</span>
+            <span>📶</span>
+            <span id="clock">12:00 AM</span>
+        </div>
+    </div>
 
+    <div id="desktop"></div>
+
+    <div class="dock-container">
+        <div class="dock">
+            <div class="dock-icon" onclick="openApp('notepad')" title="Notes">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="notesBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#FFF4B8" />
+                            <stop offset="100%" stop-color="#FCDA62" />
+                        </linearGradient>
+                        <linearGradient id="notesHeader" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#E53935" />
+                            <stop offset="100%" stop-color="#B71C1C" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="8" y="6" width="48" height="52" rx="10" fill="url(#notesBg)"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <path d="M 8 16 L 56 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z"
+                        fill="url(#notesHeader)" />
+                    <line x1="16" y1="26" x2="48" y2="26" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="16" y1="35" x2="48" y2="35" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="16" y1="44" x2="36" y2="44" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <div class="dock-icon" onclick="openApp('browser')" title="Browser">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="browserBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF" />
+                            <stop offset="100%" stop-color="#E8EAED" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#browserBg)"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <path
+                        d="M 43.1 32.8 C 43.1 31.4 43 30.1 42.7 28.8 L 32 28.8 L 32 35.7 L 38.3 35.7 C 38 37.3 37.1 38.7 35.7 39.6 L 35.7 42.9 L 39.8 42.9 C 42.3 40.6 43.1 37 43.1 32.8 Z"
+                        fill="#4285F4" />
+                    <path
+                        d="M 32 44.1 C 35.3 44.1 38 43 40 41.2 L 35.9 38 C 34.8 38.8 33.5 39.2 32 39.2 C 28.8 39.2 26.1 37.1 25.1 34.2 L 20.9 34.2 L 20.9 37.5 C 22.9 41.4 27.1 44.1 32 44.1 Z"
+                        fill="#34A853" />
+                    <path
+                        d="M 25.1 34.2 C 24.8 33.4 24.7 32.5 24.7 31.6 C 24.7 30.7 24.8 29.8 25.1 29 L 25.1 25.7 L 20.9 25.7 C 20.1 27.4 19.6 29.4 19.6 31.6 C 19.6 33.8 20.1 35.8 20.9 37.5 L 25.1 34.2 Z"
+                        fill="#FBBC05" />
+                    <path
+                        d="M 32 24 C 33.8 24 35.4 24.6 36.7 25.8 L 40.1 22.4 C 38 20.4 35.3 19.1 32 19.1 C 27.1 19.1 22.9 21.8 20.9 25.7 L 25.1 29 C 26.1 26.1 28.8 24 32 24 Z"
+                        fill="#EA4335" />
+                </svg>
+            </div>
+
+            <div class="dock-icon" onclick="openApp('paint')" title="Paint Studio">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="paintBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#F5E3C3" />
+                            <stop offset="100%" stop-color="#D7B17C" />
+                        </linearGradient>
+                    </defs>
+                    <path
+                        d="M 32 6 C 17.6 6 6 17.6 6 32 C 6 46.4 17.6 58 32 58 C 36.5 58 40.5 55.5 42 51.5 C 43 48.8 45.8 47.5 48.5 48.5 C 50 49 52 48.5 53 47 C 56 42.5 58 37.5 58 32 C 58 17.6 46.4 6 32 6 Z"
+                        fill="url(#paintBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <circle cx="48" cy="38" r="4.5" fill="#2D2B2A" />
+                    <circle cx="20" cy="22" r="5" fill="#E53935" />
+                    <circle cx="34" cy="17" r="5" fill="#FFB300" />
+                    <circle cx="47" cy="24" r="5" fill="#1E88E5" />
+                    <circle cx="18" cy="36" r="5" fill="#43A047" />
+                    <circle cx="27" cy="47" r="5" fill="#8E24AA" />
+                </svg>
+            </div>
+
+            <div class="dock-icon" onclick="openApp('settings')" title="Settings">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="settingsBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#8E8E93" />
+                            <stop offset="100%" stop-color="#48484A" />
+                        </linearGradient>
+                        <linearGradient id="gearMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF" />
+                            <stop offset="100%" stop-color="#B0B0B5" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#settingsBg)"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <path
+                        d="M 35.5 16 L 28.5 16 L 27.5 20.2 C 26.2 20.7 25 21.4 23.9 22.3 L 19.8 20.6 L 14.8 25.6 L 16.5 29.7 C 15.6 30.8 14.9 32 14.4 33.3 L 10.2 34.3 L 10.2 41.3 L 14.4 42.3 C 14.9 43.6 15.6 44.8 16.5 45.9 L 14.8 50 L 19.8 55 L 23.9 53.3 C 25 54.2 26.2 54.9 27.5 55.4 L 28.5 59.6 L 35.5 59.6 L 36.5 55.4 C 37.8 54.9 39 54.2 40.1 53.3 L 44.2 55 L 49.2 50 L 47.5 45.9 C 48.4 44.8 49.1 43.6 49.6 42.3 L 53.8 41.3 L 53.8 34.3 L 49.6 33.3 C 49.1 32 48.4 30.8 47.5 29.7 L 49.2 25.6 L 44.2 20.6 L 40.1 22.3 C 39 21.4 37.8 20.7 36.5 20.2 Z M 32 45 C 24.8 45 19 39.2 19 32 C 19 24.8 24.8 19 32 19 C 39.2 19 45 24.8 45 32 C 45 39.2 39.2 45 32 45 Z"
+                        fill="url(#gearMetal)" transform="scale(0.7) translate(14, 14)" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <template id="notepad-template">
+        <div class="window draggable">
+            <div class="titlebar">
+                <div class="traffic-lights">
+                    <div class="dot close" onclick="closeApp(this)"></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                </div>
+                <div class="window-title">System Notes</div>
+            </div>
+            <div class="window-content">
+                <textarea class="notepad-area" placeholder="Documenting architecture..."></textarea>
+            </div>
+        </div>
+    </template>
+
+    <template id="browser-template">
+        <div class="window draggable browser-window">
+            <div class="titlebar">
+                <div class="traffic-lights">
+                    <div class="dot close" onclick="closeApp(this)"></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                </div>
+                <div class="window-title">Browser</div>
+            </div>
+            <div class="browser-ui">
+                <input type="text" class="url-bar" value="https://system.internal" readonly>
