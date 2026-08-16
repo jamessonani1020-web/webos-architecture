@@ -9,7 +9,6 @@
 </head>
 
 <body id="os-body">
-
     <div class="menubar">
         <div class="menu-left">
             <span class="apple-logo"></span>
@@ -149,3 +148,64 @@
             </div>
             <div class="browser-ui">
                 <input type="text" class="url-bar" value="https://system.internal" readonly>
+            </div>
+            <div class="google-logo">
+                <h1 class="window-content browser-content">
+                    <span>s</span><span>e</span><span>a</span><span>r</span><span>c</span><span>h</span><h1>
+                <input type="text" class="mock-search" placeholder="Query network...">
+            </div>
+        </div>
+    </template>
+    
+    </template id="paint-template">
+        <div class="window draggable">
+            <div class="titlebar">
+            <div class="traffic-lights">
+                <div class="dot close" onclick="closeApp(this)"></div>
+                <div class="dot minimize" onclick="toogleMinimize(this)"></div>
+                <div class="dot maximize" onclick="toogleMaximize(this)"></div>
+            </div>
+            <div class="window-title">canvas studio</div>
+        </div>
+        <div class="window-content paint-container">
+            <div class="paint-controls">
+                <input typr="color" id="paintcolor" value="#000000">
+                <input type="range" id="paintSize" min="1" max="20" value="3">
+                <button oneclick="clearcanvas(this)" class="clear-btn">clear</button>
+            </div>
+            <canvas class="paintcanvas" width="450" height="300"></canvas>
+        </div>
+    </div>
+</templates>
+
+<templates id="settings-template">
+    <div class="window draggable">
+        <div class="titlebar">
+            <div class="traffic-lights">
+                <div class="dot close" onclick="closeAPP(this)"></div>
+                <div class="dot minimize" onclick="toggleMinimize(this)"></div>
+                <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+            </div>
+            <div class="window-title">environment settings</div>
+        <div class="window-content settings-content">
+            <h3>select workspace Background</h3>
+            <div class="wallpaper-options">
+                <button
+                    onclick="changewallpaper('https://unsplash.com/photos/golden-sunset-over-the-ocean-with-silhouetted-foreground-plants-6iwUUmEnokU')">Sunset 
+                    Dark</button>
+                <button
+                    onclick="changewallpaper('https://unsplash.com/photos/silhouette-of-off-road-car-h8nxGssjQXs')">nightsky 
+                    flow</button>
+                <button
+                    onclick="changewallpaper('https://unsplash.com/photos/yellow-lights-between-trees-hvrpOmuMrAI')">forest 
+                    gradient</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+ <script src="script.js"></script>
+</body>
+
+</html>
