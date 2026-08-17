@@ -1,3 +1,9 @@
+/* ==============================================
+   CopyMac OS 1 — Master Stylesheet
+   All original styles preserved. New sections
+   are clearly labeled below the originals.
+============================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -8,15 +14,15 @@
 body {
     height: 100vh;
     width: 100vw;
-    /* Default Stealth Wallpaper */
-    background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853');
+    /* Default wallpaper */
+    background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1920&q=80');
     background-size: cover;
     background-position: center;
     overflow: hidden;
     transition: background-image 0.5s ease;
 }
 
-/* Menu Bar */
+/* ==================== MENU BAR ==================== */
 .menubar {
     height: 28px;
     background: rgba(20, 20, 20, 0.6);
@@ -31,6 +37,8 @@ body {
     color: #e5e5e5;
     user-select: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 500;
 }
 
 .menu-left span,
@@ -43,14 +51,14 @@ body {
     margin-left: 12px;
 }
 
-/* Desktop container */
+/* ==================== DESKTOP ==================== */
 #desktop {
     position: relative;
     width: 100%;
     height: calc(100vh - 28px);
 }
 
-/* Dock Styling */
+/* ==================== DOCK ==================== */
 .dock-container {
     position: absolute;
     bottom: 12px;
@@ -83,7 +91,7 @@ body {
     transform: scale(1.3) translateY(-10px);
 }
 
-/* Windows */
+/* ==================== WINDOWS ==================== */
 .window {
     position: absolute;
     top: 60px;
@@ -97,7 +105,15 @@ body {
     flex-direction: column;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    /* smooth transitions for state changes (maximize, minimize, open, close) */
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.25s ease,
+        width 0.3s ease,
+        height 0.3s ease,
+        top 0.3s ease,
+        left 0.3s ease;
+    transform: scale(1);
+    opacity: 1;
 }
 
 .titlebar {
@@ -110,6 +126,7 @@ body {
     border-bottom: 1px solid #1a1a1a;
     position: relative;
     user-select: none;
+    flex-shrink: 0;
 }
 
 .titlebar:active {
@@ -128,6 +145,10 @@ body {
     height: 12px;
     border-radius: 50%;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close {
@@ -140,6 +161,20 @@ body {
 
 .maximize {
     background: #27c93f;
+}
+
+/* Show glyphs on hover so user knows what each button does */
+.dot-icon {
+    display: none;
+    font-size: 9px;
+    font-weight: bold;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+.traffic-lights:hover .dot-icon {
+    display: block;
 }
 
 .window-title {
@@ -157,7 +192,122 @@ body {
     color: #e5e5e5;
 }
 
-/* Specific Apps */
+/* Window state classes */
+.window.closing {
+    transform: scale(0.85) !important;
+    opacity: 0 !important;
+}
+
+/* minimized = fully hidden, lives in taskbar instead */
+.window.minimized {
+    display: none !important;
+}
+
+.window.maximized {
+    top: 28px !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 28px) !important;
+    border-radius: 0;
+    transform: none !important;
+}
+
+/* ==================== TASKBAR ==================== */
+/* sits just above the dock — only visible when apps are minimized */
+.taskbar {
+    position: fixed;
+    bottom: 86px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 9998;
+    pointer-events: none;
+    /* pass-through when empty */
+}
+
+.taskbar:empty {
+    display: none;
+}
+
+.taskbar-tab {
+    pointer-events: auto;
+    background: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.taskbar-tab:hover {
+    background: rgba(50, 50, 50, 0.95);
+    color: #fff;
+}
+
+/* hover popup with Restore / Maximize buttons */
+.taskbar-popup {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(40, 40, 40, 0.95);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 8px;
+    padding-bottom: 16px;
+    gap: 6px;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    min-width: 110px;
+}
+
+.taskbar-tab:hover .taskbar-popup {
+    display: flex;
+}
+
+.taskbar-popup-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.12s;
+}
+
+.taskbar-popup-btn.restore-btn {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.taskbar-popup-btn.restore-btn:hover {
+    background: #2563eb;
+}
+
+.taskbar-popup-btn.max-btn {
+    background: #444;
+    color: #ddd;
+}
+
+.taskbar-popup-btn.max-btn:hover {
+    background: #27c93f;
+    color: #fff;
+}
+
+/* ==================== NOTEPAD ==================== */
 .notepad-area {
     width: 100%;
     height: 320px;
@@ -171,6 +321,7 @@ body {
     color: #e5e5e5;
 }
 
+/* ==================== BROWSER ==================== */
 .browser-window {
     width: 640px;
 }
@@ -189,9 +340,10 @@ body {
     border-radius: 6px;
     border: none;
     background: #111;
-    color: #888;
+    color: #ccc;
     text-align: center;
     outline: none;
+    font-size: 12px;
 }
 
 .browser-content {
@@ -220,6 +372,11 @@ body {
     font-size: 14px;
 }
 
+.mock-search:focus {
+    border-color: #58a6ff;
+}
+
+/* ==================== PAINT ==================== */
 .paint-container {
     flex-direction: column;
 }
@@ -230,6 +387,7 @@ body {
     padding: 10px;
     background: #252525;
     border-bottom: 1px solid #1a1a1a;
+    align-items: center;
 }
 
 .paintCanvas {
@@ -246,12 +404,198 @@ body {
     cursor: pointer;
 }
 
-.settings-content {
-    flex-direction: column;
-    padding: 30px;
-    height: 240px;
+.clear-btn:hover {
+    background: #666;
 }
 
+/* ==========================================================
+   NEW: SETTINGS — sidebar layout with multiple panels
+========================================================== */
+.settings-win {
+    width: 580px;
+}
+
+.settings-content {
+    flex-direction: row;
+    height: 380px;
+    padding: 0;
+}
+
+.settings-sidebar {
+    width: 160px;
+    background: #252525;
+    border-right: 1px solid #333;
+    padding: 16px 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-nav-item {
+    padding: 10px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #aaa;
+    transition: background 0.15s;
+}
+
+.settings-nav-item:hover {
+    background: #333;
+}
+
+.settings-nav-item.active {
+    background: #3a3a3a;
+    color: #fff;
+    font-weight: 600;
+}
+
+.settings-panels {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.settings-panel {
+    display: none;
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+.settings-panel h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+.settings-hint {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+}
+
+/* Wallpaper thumbnail grid */
+.wallpaper-thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.wallpaper-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.wallpaper-thumb:hover {
+    transform: scale(1.04);
+}
+
+.wallpaper-thumb.selected {
+    border-color: #58a6ff;
+}
+
+/* Settings rows (brightness, display name, etc.) */
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.settings-row label {
+    font-size: 13px;
+    color: #ccc;
+    min-width: 80px;
+}
+
+/* custom range slider */
+.styled-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 160px;
+    height: 4px;
+    border-radius: 3px;
+    background: #555;
+    outline: none;
+}
+
+.styled-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #58a6ff;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+.settings-text-input {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #2a2a2a;
+    color: #fff;
+    outline: none;
+    font-size: 13px;
+    width: 140px;
+}
+
+.settings-text-input:focus {
+    border-color: #58a6ff;
+}
+
+.settings-apply-btn {
+    padding: 5px 14px;
+    border: none;
+    border-radius: 4px;
+    background: #58a6ff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.settings-apply-btn:hover {
+    background: #4090e0;
+}
+
+/* About section inside settings */
+.about-info {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.about-logo {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.about-info h2 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.about-info p {
+    color: #999;
+    font-size: 13px;
+}
+
+.about-sub {
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* old wallpaper-options from original code — kept for backwards compat,
+   but the new thumb grid replaces it in the settings template */
 .wallpaper-options {
     display: flex;
     gap: 15px;
@@ -274,32 +618,292 @@ body {
     background: #58a6ff;
 }
 
-/* Window State Transitions & Modifiers */
-.window {
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease, width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
-    transform: scale(1);
+/* ==========================================================
+   NEW: GUIDE APP
+========================================================== */
+.guide-window {
+    width: 620px;
+}
+
+.guide-content {
+    flex-direction: row;
+    height: 400px;
+}
+
+.guide-sidebar {
+    width: 150px;
+    background: #252525;
+    border-right: 1px solid #333;
+    padding: 14px 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.guide-sidebar h4 {
+    padding: 0 14px 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #777;
+    border-bottom: 1px solid #333;
+    margin-bottom: 6px;
+}
+
+.guide-topic {
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #aaa;
+    transition: background 0.15s;
+}
+
+.guide-topic:hover {
+    background: #333;
+}
+
+.guide-topic.active {
+    background: #3a3a3a;
+    color: #fff;
+    font-weight: 600;
+}
+
+.guide-body {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #ddd;
+}
+
+.guide-body h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.guide-body p {
+    margin-bottom: 12px;
+    color: #ccc;
+}
+
+.guide-body .tip-box {
+    background: rgba(88, 166, 255, 0.1);
+    border-left: 3px solid #58a6ff;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #aadaff;
+}
+
+.guide-body kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    background: #444;
+    border: 1px solid #555;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #ddd;
+    font-family: monospace;
+}
+
+/* ==========================================================
+   NEW: BRIGHTNESS OVERLAY
+   A black layer on top of everything. Opacity controlled by JS.
+   pointer-events: none so it doesn't block interaction.
+========================================================== */
+.brightness-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99998;
+    transition: opacity 0.3s ease;
+}
+
+/* ==========================================================
+   NEW: WELCOME / FIRST-BOOT OOBE
+   Full-screen overlay that guides first-time users through setup.
+========================================================== */
+.welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0d0d0d, #1a1a2e, #0d0d0d);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease;
+}
+
+.welcome-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-step {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.welcome-step.active {
+    display: flex;
     opacity: 1;
 }
 
-.window.closing {
-    transform: scale(0.85) !important;
-    opacity: 0 !important;
+/* the big "Hello" text */
+.hello-container {
+    text-align: center;
+    cursor: pointer;
 }
 
-.window.minimized .window-content {
-    display: none;
+.hello-text {
+    font-size: 80px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -2px;
+    transition: opacity 0.4s ease;
 }
 
-.window.minimized {
-    height: 36px !important; /* Only titlebar */
-    min-height: 36px !important;
+.hello-sub {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666;
+    animation: pulse-subtle 2s ease-in-out infinite;
 }
 
-.window.maximized {
-    top: 28px !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 28px) !important;
-    border-radius: 0;
-    transform: none !important;
+@keyframes pulse-subtle {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* general welcome content centering */
+.welcome-center {
+    text-align: center;
+    max-width: 480px;
+    padding: 0 32px;
+}
+
+.welcome-logo-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.welcome-heading {
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.welcome-sub-text {
+    font-size: 15px;
+    color: #888;
+    margin-bottom: 28px;
+}
+
+.welcome-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 18px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.welcome-input:focus {
+    border-color: #58a6ff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.welcome-btn {
+    padding: 12px 40px;
+    border: none;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #58a6ff, #3b82f6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.welcome-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.3);
+}
+
+/* wallpaper picker grid in welcome setup */
+.setup-wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.setup-wp-thumb {
+    aspect-ratio: 16/10;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.setup-wp-thumb:hover {
+    transform: scale(1.05);
+}
+
+.setup-wp-thumb.selected {
+    border-color: #58a6ff;
+}
+
+/* dots at bottom of welcome screen */
+.welcome-dots {
+    position: absolute;
+    bottom: 32px;
+    display: flex;
+    gap: 8px;
+}
+
+.w-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.3s;
+}
+
+.w-dot.active {
+    background: #58a6ff;
 }
