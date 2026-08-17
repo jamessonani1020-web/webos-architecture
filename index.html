@@ -4,17 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SystemOS Architecture</title>
+    <title>CopyMac OS 1</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body id="os-body">
 
+    <!-- ============================================
+         WELCOME / FIRST-BOOT SETUP SCREEN
+         Like macOS out-of-box experience (OOBE)
+         Only shows on first visit (checked via localStorage)
+    ============================================= -->
+    <div id="welcome-overlay" class="welcome-overlay">
+
+        <!-- Step 1: rotating "Hello" in different languages -->
+        <div class="welcome-step active" data-step="1">
+            <div class="hello-container">
+                <h1 class="hello-text" id="hello-rotating">Hello</h1>
+                <p class="hello-sub">Click anywhere to continue</p>
+            </div>
+        </div>
+
+        <!-- Step 2: Intro message -->
+        <div class="welcome-step" data-step="2">
+            <div class="welcome-center">
+                <div class="welcome-logo-icon">&#x1F34E;</div>
+                <h1 class="welcome-heading">Welcome to CopyMac OS 1</h1>
+                <p class="welcome-sub-text">Your personal desktop, right in the browser.</p>
+                <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 3: enter name -->
+        <div class="welcome-step" data-step="3">
+            <div class="welcome-center">
+                <h1 class="welcome-heading">What should we call you?</h1>
+                <p class="welcome-sub-text">This will appear on your menu bar.</p>
+                <input type="text" id="setup-username" class="welcome-input" placeholder="Enter your name"
+                    maxlength="20" autocomplete="off">
+                <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 4: pick wallpaper -->
+        <div class="welcome-step" data-step="4">
+            <div class="welcome-center">
+                <h1 class="welcome-heading">Pick your look</h1>
+                <p class="welcome-sub-text">You can always change this later in Settings.</p>
+                <div class="setup-wallpaper-grid" id="setup-wallpapers">
+                    <!-- dynamically filled by script.js -->
+                </div>
+                <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 5: done -->
+        <div class="welcome-step" data-step="5">
+            <div class="welcome-center">
+                <h1 class="welcome-heading" id="welcome-final-msg">You're all set!</h1>
+                <p class="welcome-sub-text">Enjoy CopyMac OS 1.</p>
+                <button class="welcome-btn" onclick="finishWelcome()">Get Started</button>
+            </div>
+        </div>
+
+        <!-- progress dots -->
+        <div class="welcome-dots">
+            <span class="w-dot active" data-dot="1"></span>
+            <span class="w-dot" data-dot="2"></span>
+            <span class="w-dot" data-dot="3"></span>
+            <span class="w-dot" data-dot="4"></span>
+            <span class="w-dot" data-dot="5"></span>
+        </div>
+    </div>
+
+    <!-- BRIGHTNESS OVERLAY — dark layer to simulate brightness control -->
+    <div id="brightness-overlay" class="brightness-overlay"></div>
+
     <!-- Top Menu Bar -->
     <div class="menubar">
         <div class="menu-left">
-            <span class="apple-logo"></span>
-            <strong>SystemOS</strong>
+            <span class="apple-logo">&#x1F34E;</span>
+            <strong id="os-name-display">CopyMac OS 1</strong>
             <span>File</span>
             <span>Edit</span>
             <span>View</span>
@@ -22,9 +92,9 @@
             <span>Help</span>
         </div>
         <div class="menu-right">
-            <span>Status: Stealth</span>
-            <span>⚡ 100%</span>
-            <span>📶</span>
+            <span id="user-greeting"></span>
+            <span>&#x1F50B; 100%</span>
+            <span>&#x1F4F6;</span>
             <span id="clock">12:00 AM</span>
         </div>
     </div>
@@ -32,9 +102,13 @@
     <!-- Desktop Area -->
     <div id="desktop"></div>
 
-    <!-- The Dock -->
+    <!-- Taskbar — minimized apps appear here as small tabs (like Windows) -->
+    <div id="taskbar" class="taskbar"></div>
+
+    <!-- ===================== THE DOCK ===================== -->
     <div class="dock-container">
         <div class="dock">
+
             <!-- Notes -->
             <div class="dock-icon" onclick="openApp('notepad')" title="Notes">
                 <svg viewBox="0 0 64 64" width="100%" height="100%">
@@ -52,9 +126,12 @@
                         filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
                     <path d="M 8 16 L 56 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z"
                         fill="url(#notesHeader)" />
-                    <line x1="16" y1="26" x2="48" y2="26" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
-                    <line x1="16" y1="35" x2="48" y2="35" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
-                    <line x1="16" y1="44" x2="36" y2="44" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="16" y1="26" x2="48" y2="26" stroke="#D4A72C" stroke-width="2.5"
+                        stroke-linecap="round" />
+                    <line x1="16" y1="35" x2="48" y2="35" stroke="#D4A72C" stroke-width="2.5"
+                        stroke-linecap="round" />
+                    <line x1="16" y1="44" x2="36" y2="44" stroke="#D4A72C" stroke-width="2.5"
+                        stroke-linecap="round" />
                 </svg>
             </div>
 
@@ -105,6 +182,54 @@
                 </svg>
             </div>
 
+            <!-- YouTube (opens real site) -->
+            <div class="dock-icon" onclick="openApp('youtube')" title="YouTube">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <rect x="6" y="6" width="52" height="52" rx="12" fill="#FF0000"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <polygon points="26,20 26,44 44,32" fill="#FFFFFF" />
+                </svg>
+            </div>
+
+            <!-- StarDance (opens real site) -->
+            <div class="dock-icon" onclick="openApp('stardance')" title="StarDance Challenge">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="starBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#6C63FF" />
+                            <stop offset="100%" stop-color="#3F3D99" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#starBg)"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <polygon points="32,14 36,26 48,26 38,33 42,45 32,37 22,45 26,33 16,26 28,26"
+                        fill="#FFD700" />
+                </svg>
+            </div>
+
+            <!-- Guide / Help -->
+            <div class="dock-icon" onclick="openApp('guide')" title="User Guide">
+                <svg viewBox="0 0 64 64" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="guideBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#42A5F5" />
+                            <stop offset="100%" stop-color="#1565C0" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#guideBg)"
+                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
+                    <!-- book icon shape -->
+                    <rect x="16" y="14" width="32" height="36" rx="3" fill="#fff" opacity="0.95" />
+                    <rect x="16" y="14" width="16" height="36" rx="3" fill="#E3F2FD" />
+                    <line x1="32" y1="14" x2="32" y2="50" stroke="#90CAF9" stroke-width="2" />
+                    <line x1="21" y1="24" x2="28" y2="24" stroke="#1565C0" stroke-width="1.5" />
+                    <line x1="21" y1="29" x2="27" y2="29" stroke="#1565C0" stroke-width="1.5" />
+                    <line x1="21" y1="34" x2="26" y2="34" stroke="#1565C0" stroke-width="1.5" />
+                    <line x1="36" y1="24" x2="43" y2="24" stroke="#1565C0" stroke-width="1.5" />
+                    <line x1="36" y1="29" x2="42" y2="29" stroke="#1565C0" stroke-width="1.5" />
+                </svg>
+            </div>
+
             <!-- Settings -->
             <div class="dock-icon" onclick="openApp('settings')" title="Settings">
                 <svg viewBox="0 0 64 64" width="100%" height="100%">
@@ -128,19 +253,22 @@
         </div>
     </div>
 
-    <!-- APP TEMPLATES -->
+    <!-- ===================== APP TEMPLATES ===================== -->
+
     <template id="notepad-template">
         <div class="window draggable">
             <div class="titlebar">
                 <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
+                    </div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
+                    </div>
                 </div>
                 <div class="window-title">System Notes</div>
             </div>
             <div class="window-content">
-                <textarea class="notepad-area" placeholder="Documenting architecture..."></textarea>
+                <textarea class="notepad-area" placeholder="Start typing your notes here..."></textarea>
             </div>
         </div>
     </template>
@@ -149,20 +277,24 @@
         <div class="window draggable browser-window">
             <div class="titlebar">
                 <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
+                    </div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
+                    </div>
                 </div>
                 <div class="window-title">Browser</div>
             </div>
             <div class="browser-ui">
-                <input type="text" class="url-bar" value="https://system.internal" readonly>
+                <input type="text" class="url-bar" placeholder="Search or enter URL...">
             </div>
             <div class="window-content browser-content">
                 <h1 class="google-logo">
-                    <span>S</span><span>e</span><span>a</span><span>r</span><span>c</span><span>h</span>
+                    <span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span
+                        style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span
+                        style="color:#34A853">l</span><span style="color:#EA4335">e</span>
                 </h1>
-                <input type="text" class="mock-search" placeholder="Query network...">
+                <input type="text" class="mock-search" placeholder="Search Google or type a URL">
             </div>
         </div>
     </template>
@@ -171,9 +303,11 @@
         <div class="window draggable">
             <div class="titlebar">
                 <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
+                    </div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
+                    </div>
                 </div>
                 <div class="window-title">Canvas Studio</div>
             </div>
@@ -188,34 +322,93 @@
         </div>
     </template>
 
+    <!-- Settings — now with sidebar navigation, brightness, about panel -->
     <template id="settings-template">
-        <div class="window draggable">
+        <div class="window draggable settings-win">
             <div class="titlebar">
                 <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"></div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"></div>
+                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
+                    </div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
+                    </div>
                 </div>
-                <div class="window-title">Environment Settings</div>
+                <div class="window-title">System Preferences</div>
             </div>
             <div class="window-content settings-content">
-                <h3>Select Workspace Background</h3>
-                <div class="wallpaper-options">
-                    <button
-                        onclick="changeWallpaper('https://images.unsplash.com/photo-1550684848-fac1c5b4e853')">Stealth
-                        Dark</button>
-                    <button
-                        onclick="changeWallpaper('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe')">Obsidian
-                        Flow</button>
-                    <button
-                        onclick="changeWallpaper('https://images.unsplash.com/photo-1579546929518-9e396f3cc809')">Neon
-                        Gradient</button>
+                <div class="settings-sidebar">
+                    <div class="settings-nav-item active" data-panel="wallpaper">&#x1F5BC;&#xFE0F; Wallpaper</div>
+                    <div class="settings-nav-item" data-panel="display">&#x2600;&#xFE0F; Display</div>
+                    <div class="settings-nav-item" data-panel="about">&#x2139;&#xFE0F; About</div>
+                </div>
+                <div class="settings-panels">
+                    <div class="settings-panel active" data-panel="wallpaper">
+                        <h3>Wallpaper</h3>
+                        <p class="settings-hint">Choose a desktop background.</p>
+                        <div class="wallpaper-thumb-grid" id="settings-wallpaper-grid">
+                            <!-- filled by JS -->
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="display">
+                        <h3>Display</h3>
+                        <div class="settings-row">
+                            <label for="brightness-slider">Brightness</label>
+                            <input type="range" id="brightness-slider" min="20" max="100" value="100"
+                                class="styled-range">
+                            <span id="brightness-val">100%</span>
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="about">
+                        <h3>About This Mac</h3>
+                        <div class="about-info">
+                            <div class="about-logo">&#x1F34E;</div>
+                            <h2 id="about-os-name">CopyMac OS 1</h2>
+                            <p>Version 1.0.0</p>
+                            <p class="about-sub">A web-based desktop experience.</p>
+                            <div class="settings-row" style="margin-top: 20px;">
+                                <label for="display-name-input">Display Name</label>
+                                <input type="text" id="display-name-input" class="settings-text-input"
+                                    placeholder="CopyMac OS 1" maxlength="24">
+                                <button class="settings-apply-btn" onclick="updateDisplayName()">Apply</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- JS linked at the very bottom so HTML loads first -->
+    <!-- Guide / Help app — interactive tutorial -->
+    <template id="guide-template">
+        <div class="window draggable guide-window">
+            <div class="titlebar">
+                <div class="traffic-lights">
+                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
+                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
+                    </div>
+                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
+                    </div>
+                </div>
+                <div class="window-title">CopyMac OS 1 — User Guide</div>
+            </div>
+            <div class="window-content guide-content">
+                <div class="guide-sidebar">
+                    <h4>Topics</h4>
+                    <div class="guide-topic active" data-topic="0">Getting Started</div>
+                    <div class="guide-topic" data-topic="1">The Dock</div>
+                    <div class="guide-topic" data-topic="2">Windows</div>
+                    <div class="guide-topic" data-topic="3">Browser</div>
+                    <div class="guide-topic" data-topic="4">Settings</div>
+                    <div class="guide-topic" data-topic="5">Other Apps</div>
+                </div>
+                <div class="guide-body" id="guide-body">
+                    <!-- content filled dynamically by JS -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- JS at the bottom so HTML is parsed first -->
     <script src="script.js"></script>
 </body>
 
