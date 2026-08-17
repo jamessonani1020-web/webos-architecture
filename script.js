@@ -1,4 +1,3 @@
-
 let highestZIndex = 100;
 
 function bringToFront(windowEl) {
