@@ -1,5 +1,4 @@
 * {
-    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,15 +7,16 @@
 
 body {
     height: 100vh;
-    width: 100vh;
-    background-image: url('https://unsplash.com/photos/golden-sunset-over-the-ocean-with-silhouetted-foreground-plants-6iwUUmEnokU');
+    width: 100vw;
+    /* Default Stealth Wallpaper */
+    background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853');
     background-size: cover;
     background-position: center;
     overflow: hidden;
     transition: background-image 0.5s ease;
 }
 
-
+/* Menu Bar */
 .menubar {
     height: 28px;
     background: rgba(20, 20, 20, 0.6);
@@ -30,7 +30,7 @@ body {
     font-weight: 500;
     color: #e5e5e5;
     user-select: none;
-    border-bottom: 1px solid rgba(255,255,255,1.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .menu-left span,
@@ -43,12 +43,14 @@ body {
     margin-left: 12px;
 }
 
+/* Desktop container */
 #desktop {
     position: relative;
     width: 100%;
     height: calc(100vh - 28px);
 }
 
+/* Dock Styling */
 .dock-container {
     position: absolute;
     bottom: 12px;
@@ -62,24 +64,26 @@ body {
     background: rgba(20, 20, 20, 0.5);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    border-radius: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 10px 14px;
+    border-radius: 24px;
     display: flex;
     gap: 14px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .dock-icon {
     width: 50px;
     height: 50px;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .dock-icon:hover {
     transform: scale(1.3) translateY(-10px);
 }
 
+/* Windows */
 .window {
     position: absolute;
     top: 60px;
@@ -88,7 +92,7 @@ body {
     background: rgba(30, 30, 30, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 12px;
-    box-shadow: 0 22px 50px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -108,7 +112,7 @@ body {
     user-select: none;
 }
 
-.titlebar-active {
+.titlebar:active {
     cursor: grabbing;
 }
 
@@ -153,6 +157,7 @@ body {
     color: #e5e5e5;
 }
 
+/* Specific Apps */
 .notepad-area {
     width: 100%;
     height: 320px;
@@ -164,27 +169,22 @@ body {
     outline: none;
     background: transparent;
     color: #e5e5e5;
-
 }
 
 .browser-window {
     width: 640px;
-
 }
 
 .browser-ui {
-    width: 80%;
-    padding:6px 12px;
-    border-radius: 6px;
-    border: none;
-    background: #111;
-    color: #888;
-    text-align: center;
-    outline: none;
+    background: #252525;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #1a1a1a;
 }
 
 .url-bar {
-    width:80%;
+    width: 80%;
     padding: 6px 12px;
     border-radius: 6px;
     border: none;
@@ -217,7 +217,7 @@ body {
     background: #2a2a2a;
     color: #fff;
     outline: none;
-    font-size: 140px;
+    font-size: 14px;
 }
 
 .paint-container {
@@ -232,7 +232,7 @@ body {
     border-bottom: 1px solid #1a1a1a;
 }
 
-.paint-canvas {
+.paintCanvas {
     background: #ffffff;
     cursor: crosshair;
 }
@@ -252,30 +252,31 @@ body {
     height: 240px;
 }
 
-.wallpaper-option {
+.wallpaper-options {
     display: flex;
     gap: 15px;
     margin-top: 20px;
 }
 
-.wallpaper-option button {
-    flex: 1px;
+.wallpaper-options button {
+    flex: 1;
     padding: 12px;
     border: none;
     background: #333;
     color: white;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 500;
+    font-weight: 500;
     transition: background 0.2s;
 }
 
-.wallpaper-option button:hover {
+.wallpaper-options button:hover {
     background: #58a6ff;
 }
 
+/* Window State Transitions & Modifiers */
 .window {
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease, width0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease, width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
     transform: scale(1);
     opacity: 1;
 }
@@ -290,7 +291,7 @@ body {
 }
 
 .window.minimized {
-    height: 38px !important; /*only titlebar*/
+    height: 36px !important; /* Only titlebar */
     min-height: 36px !important;
 }
 
@@ -299,5 +300,6 @@ body {
     left: 0 !important;
     width: 100vw !important;
     height: calc(100vh - 28px) !important;
+    border-radius: 0;
     transform: none !important;
 }
