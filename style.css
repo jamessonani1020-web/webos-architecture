@@ -1,909 +1,305 @@
-/* ==============================================
-   CopyMac OS 1 — Master Stylesheet
-   All original styles preserved. New sections
-   are clearly labeled below the originals.
-============================================== */
+/* CopyMac OS 1 — Master Stylesheet */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+/* ==================== THEME TOKENS ==================== */
+body, body[data-theme="default"] {
+    --t-accent:#58a6ff; --t-accent-hover:#4090e0; --t-accent2:#58a6ff;
+    --t-menubar:rgba(20,20,20,0.6); --t-dock:rgba(20,20,20,0.5); --t-dock-border:rgba(255,255,255,0.15);
+    --t-window:rgba(30,30,30,0.95); --t-titlebar:#2d2d2d; --t-content:#1e1e1e; --t-sidebar:#252525;
+    --t-input:#2a2a2a; --t-text:#e5e5e5; --t-text-dim:#b3b3b3; --t-text-muted:#888;
+    --t-border:rgba(255,255,255,0.1); --t-border-solid:#333; --t-glow:none;
+}
+body[data-theme="ironman"] {
+    --t-accent:#ff4444; --t-accent-hover:#cc2222; --t-accent2:#ffd700;
+    --t-menubar:rgba(50,10,10,0.7); --t-dock:rgba(60,15,10,0.6); --t-dock-border:rgba(255,68,68,0.25);
+    --t-window:rgba(40,12,12,0.96); --t-titlebar:#3a1212; --t-content:#1e0e0e; --t-sidebar:#2a1212;
+    --t-input:#2e1515; --t-border:rgba(255,68,68,0.15); --t-border-solid:#4a2020;
+    --t-glow:0 0 40px rgba(255,68,68,0.08);
+}
+body[data-theme="thor"] {
+    --t-accent:#64b5f6; --t-accent-hover:#42a5f5; --t-accent2:#e0e0e0;
+    --t-menubar:rgba(10,20,50,0.7); --t-dock:rgba(10,25,60,0.6); --t-dock-border:rgba(100,181,246,0.25);
+    --t-window:rgba(12,18,40,0.96); --t-titlebar:#0d1533; --t-content:#0a0f20; --t-sidebar:#101830;
+    --t-input:#121a35; --t-border:rgba(100,181,246,0.15); --t-border-solid:#1a2550;
+    --t-glow:0 0 40px rgba(100,181,246,0.08);
+}
+body[data-theme="captain"] {
+    --t-accent:#ef5350; --t-accent-hover:#e53935; --t-accent2:#e8eaf6;
+    --t-menubar:rgba(10,20,60,0.7); --t-dock:rgba(15,25,70,0.6); --t-dock-border:rgba(239,83,80,0.25);
+    --t-window:rgba(15,20,50,0.96); --t-titlebar:#111840; --t-content:#0c1030; --t-sidebar:#121840;
+    --t-input:#141a45; --t-border:rgba(239,83,80,0.15); --t-border-solid:#1a2060;
+    --t-glow:0 0 40px rgba(239,83,80,0.08);
+}
+body[data-theme="spiderman"] {
+    --t-accent:#ef5350; --t-accent-hover:#e53935; --t-accent2:#42a5f5;
+    --t-menubar:rgba(40,10,15,0.7); --t-dock:rgba(50,12,18,0.6); --t-dock-border:rgba(239,83,80,0.25);
+    --t-window:rgba(35,12,18,0.96); --t-titlebar:#2d1015; --t-content:#1a0a0e; --t-sidebar:#251015;
+    --t-input:#2a1218; --t-border:rgba(239,83,80,0.15); --t-border-solid:#3a1520;
+    --t-glow:0 0 40px rgba(239,83,80,0.08);
+}
+body[data-theme="midnight"] {
+    --t-accent:#bb86fc; --t-accent-hover:#9c64e0; --t-accent2:#03dac6;
+    --t-menubar:rgba(10,5,20,0.75); --t-dock:rgba(15,8,30,0.6); --t-dock-border:rgba(187,134,252,0.2);
+    --t-window:rgba(15,8,25,0.96); --t-titlebar:#150a28; --t-content:#0d0618; --t-sidebar:#160a2a;
+    --t-input:#1a0c30; --t-border:rgba(187,134,252,0.12); --t-border-solid:#2a1550;
+    --t-glow:0 0 40px rgba(187,134,252,0.06);
+}
+body[data-theme="ocean"] {
+    --t-accent:#26c6da; --t-accent-hover:#00acc1; --t-accent2:#80deea;
+    --t-menubar:rgba(5,20,30,0.7); --t-dock:rgba(8,25,35,0.6); --t-dock-border:rgba(38,198,218,0.2);
+    --t-window:rgba(8,22,32,0.96); --t-titlebar:#0a1a28; --t-content:#06141e; --t-sidebar:#0c1c2a;
+    --t-input:#0e1e30; --t-border:rgba(38,198,218,0.12); --t-border-solid:#0f2535;
+    --t-glow:0 0 40px rgba(38,198,218,0.06);
+}
+body[data-theme="sunset"] {
+    --t-accent:#ff7043; --t-accent-hover:#f4511e; --t-accent2:#ffca28;
+    --t-menubar:rgba(40,15,10,0.7); --t-dock:rgba(50,20,12,0.6); --t-dock-border:rgba(255,112,67,0.2);
+    --t-window:rgba(35,15,12,0.96); --t-titlebar:#2a1210; --t-content:#1a0c0a; --t-sidebar:#251210;
+    --t-input:#2e1512; --t-border:rgba(255,112,67,0.12); --t-border-solid:#3a1a15;
+    --t-glow:0 0 40px rgba(255,112,67,0.06);
 }
 
-body {
-    height: 100vh;
-    width: 100vw;
-    /* Default wallpaper */
-    background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-    transition: background-image 0.5s ease;
-}
+/* ==================== RESET ==================== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{height:100vh;width:100vw;background-size:cover;background-position:center;overflow:hidden;transition:background-image 0.5s ease}
+body::after{content:'';position:fixed;inset:0;box-shadow:var(--t-glow);pointer-events:none;z-index:1}
 
 /* ==================== MENU BAR ==================== */
-.menubar {
-    height: 28px;
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #e5e5e5;
-    user-select: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 500;
-}
-
-.menu-left span,
-.menu-left strong {
-    margin-right: 14px;
-    cursor: default;
-}
-
-.menu-right span {
-    margin-left: 12px;
-}
+.menubar{height:28px;background:var(--t-menubar);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:13px;font-weight:500;color:var(--t-text);user-select:none;border-bottom:1px solid var(--t-border);position:relative;z-index:500}
+.menu-left span,.menu-left strong{margin-right:14px;cursor:default}
+.menu-left .menu-logo{margin-right:8px;display:inline-flex;vertical-align:middle}
+.menu-right span{margin-left:12px}
+#now-playing-mini{font-size:11px;color:var(--t-accent);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ==================== DESKTOP ==================== */
-#desktop {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - 28px);
-}
+#desktop{position:relative;width:100%;height:calc(100vh - 28px);z-index:2}
 
 /* ==================== DOCK ==================== */
-.dock-container {
-    position: absolute;
-    bottom: 12px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 9999;
-}
+.dock-container{position:fixed;bottom:12px;width:100%;display:flex;justify-content:center;z-index:9999;transition:all 0.3s ease}
+.dock{background:var(--t-dock);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);border:1px solid var(--t-dock-border);padding:8px 12px;border-radius:22px;display:flex;gap:10px;box-shadow:0 20px 40px rgba(0,0,0,0.4);transition:all 0.3s ease}
+.dock-icon{width:46px;height:46px;cursor:pointer;transition:transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275);flex-shrink:0}
+.dock-icon:hover{transform:scale(1.3) translateY(-10px)}
 
-.dock {
-    background: rgba(20, 20, 20, 0.5);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 10px 14px;
-    border-radius: 24px;
-    display: flex;
-    gap: 14px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.dock-icon {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.dock-icon:hover {
-    transform: scale(1.3) translateY(-10px);
-}
+body[data-dock="top"] .dock-container{bottom:auto;top:32px}
+body[data-dock="top"] .taskbar{bottom:auto;top:96px}
+body[data-dock="left"] .dock-container{bottom:auto;top:50%;left:12px;right:auto;width:auto;transform:translateY(-50%);justify-content:flex-start}
+body[data-dock="left"] .dock{flex-direction:column;padding:12px 8px;border-radius:22px}
+body[data-dock="left"] .dock-icon:hover{transform:scale(1.3) translateX(10px)}
+body[data-dock="left"] .taskbar{bottom:auto;left:80px;top:50%;transform:translate(0,-50%);flex-direction:column}
+body[data-dock="right"] .dock-container{bottom:auto;top:50%;right:12px;left:auto;width:auto;transform:translateY(-50%);justify-content:flex-end}
+body[data-dock="right"] .dock{flex-direction:column;padding:12px 8px;border-radius:22px}
+body[data-dock="right"] .dock-icon:hover{transform:scale(1.3) translateX(-10px)}
+body[data-dock="right"] .taskbar{bottom:auto;right:80px;top:50%;left:auto;transform:translate(0,-50%);flex-direction:column}
 
 /* ==================== WINDOWS ==================== */
-.window {
-    position: absolute;
-    top: 60px;
-    left: 80px;
-    width: 480px;
-    background: rgba(30, 30, 30, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 12px;
-    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    /* smooth transitions for state changes (maximize, minimize, open, close) */
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        opacity 0.25s ease,
-        width 0.3s ease,
-        height 0.3s ease,
-        top 0.3s ease,
-        left 0.3s ease;
-    transform: scale(1);
-    opacity: 1;
-}
-
-.titlebar {
-    height: 36px;
-    background: #2d2d2d;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    cursor: grab;
-    border-bottom: 1px solid #1a1a1a;
-    position: relative;
-    user-select: none;
-    flex-shrink: 0;
-}
-
-.titlebar:active {
-    cursor: grabbing;
-}
-
-.traffic-lights {
-    display: flex;
-    gap: 8px;
-    position: absolute;
-    left: 12px;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.close {
-    background: #ff5f56;
-}
-
-.minimize {
-    background: #ffbd2e;
-}
-
-.maximize {
-    background: #27c93f;
-}
-
-/* Show glyphs on hover so user knows what each button does */
-.dot-icon {
-    display: none;
-    font-size: 9px;
-    font-weight: bold;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-}
-
-.traffic-lights:hover .dot-icon {
-    display: block;
-}
-
-.window-title {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: #b3b3b3;
-}
-
-.window-content {
-    flex-grow: 1;
-    background: #1e1e1e;
-    display: flex;
-    color: #e5e5e5;
-}
-
-/* Window state classes */
-.window.closing {
-    transform: scale(0.85) !important;
-    opacity: 0 !important;
-}
-
-/* minimized = fully hidden, lives in taskbar instead */
-.window.minimized {
-    display: none !important;
-}
-
-.window.maximized {
-    top: 28px !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 28px) !important;
-    border-radius: 0;
-    transform: none !important;
-}
+.window{position:absolute;top:60px;left:80px;width:480px;background:var(--t-window);backdrop-filter:blur(20px);border-radius:12px;box-shadow:0 22px 50px rgba(0,0,0,0.5);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--t-border);transition:transform 0.25s cubic-bezier(0.175,0.885,0.32,1.275),opacity 0.25s ease,width 0.3s ease,height 0.3s ease,top 0.3s ease,left 0.3s ease;transform:scale(1);opacity:1;z-index:100}
+.titlebar{height:36px;background:var(--t-titlebar);display:flex;align-items:center;padding:0 12px;cursor:grab;border-bottom:1px solid rgba(0,0,0,0.3);position:relative;user-select:none;flex-shrink:0}
+.titlebar:active{cursor:grabbing}
+.traffic-lights{display:flex;gap:8px;position:absolute;left:12px}
+.dot{width:12px;height:12px;border-radius:50%;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center}
+.close{background:#ff5f56} .minimize{background:#ffbd2e} .maximize{background:#27c93f}
+.dot-icon{display:none;font-size:9px;font-weight:bold;line-height:1;color:rgba(0,0,0,0.6);pointer-events:none}
+.traffic-lights:hover .dot-icon{display:block}
+.window-title{flex-grow:1;text-align:center;font-size:13px;font-weight:600;color:var(--t-text-dim)}
+.window-content{flex-grow:1;background:var(--t-content);display:flex;color:var(--t-text)}
+.window.closing{transform:scale(0.85)!important;opacity:0!important}
+.window.minimized{display:none!important}
+.window.maximized{top:28px!important;left:0!important;width:100vw!important;height:calc(100vh - 28px)!important;border-radius:0;transform:none!important}
 
 /* ==================== TASKBAR ==================== */
-/* sits just above the dock — only visible when apps are minimized */
-.taskbar {
-    position: fixed;
-    bottom: 86px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    z-index: 9998;
-    pointer-events: none;
-    /* pass-through when empty */
-}
-
-.taskbar:empty {
-    display: none;
-}
-
-.taskbar-tab {
-    pointer-events: auto;
-    background: rgba(30, 30, 30, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    padding: 6px 14px;
-    color: #ccc;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    position: relative;
-    white-space: nowrap;
-    transition: background 0.15s;
-    user-select: none;
-}
-
-.taskbar-tab:hover {
-    background: rgba(50, 50, 50, 0.95);
-    color: #fff;
-}
-
-/* hover popup with Restore / Maximize buttons */
-.taskbar-popup {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(40, 40, 40, 0.95);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    padding: 8px;
-    padding-bottom: 16px;
-    gap: 6px;
-    flex-direction: column;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    z-index: 10000;
-    min-width: 110px;
-}
-
-.taskbar-tab:hover .taskbar-popup {
-    display: flex;
-}
-
-.taskbar-popup-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.12s;
-}
-
-.taskbar-popup-btn.restore-btn {
-    background: #3b82f6;
-    color: #fff;
-}
-
-.taskbar-popup-btn.restore-btn:hover {
-    background: #2563eb;
-}
-
-.taskbar-popup-btn.max-btn {
-    background: #444;
-    color: #ddd;
-}
-
-.taskbar-popup-btn.max-btn:hover {
-    background: #27c93f;
-    color: #fff;
-}
-
-/* ==================== NOTEPAD ==================== */
-.notepad-area {
-    width: 100%;
-    height: 320px;
-    border: none;
-    resize: none;
-    padding: 20px;
-    font-size: 15px;
-    line-height: 1.6;
-    outline: none;
-    background: transparent;
-    color: #e5e5e5;
-}
-
-/* ==================== BROWSER ==================== */
-.browser-window {
-    width: 640px;
-}
-
-.browser-ui {
-    background: #252525;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid #1a1a1a;
-}
-
-.url-bar {
-    width: 80%;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    background: #111;
-    color: #ccc;
-    text-align: center;
-    outline: none;
-    font-size: 12px;
-}
-
-.browser-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 360px;
-}
-
-.google-logo {
-    font-size: 48px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.mock-search {
-    width: 70%;
-    padding: 12px 20px;
-    border-radius: 24px;
-    border: 1px solid #444;
-    background: #2a2a2a;
-    color: #fff;
-    outline: none;
-    font-size: 14px;
-}
-
-.mock-search:focus {
-    border-color: #58a6ff;
-}
-
-/* ==================== PAINT ==================== */
-.paint-container {
-    flex-direction: column;
-}
-
-.paint-controls {
-    display: flex;
-    gap: 15px;
-    padding: 10px;
-    background: #252525;
-    border-bottom: 1px solid #1a1a1a;
-    align-items: center;
-}
-
-.paintCanvas {
-    background: #ffffff;
-    cursor: crosshair;
-}
-
-.clear-btn {
-    padding: 4px 12px;
-    border-radius: 4px;
-    border: none;
-    background: #444;
-    color: white;
-    cursor: pointer;
-}
-
-.clear-btn:hover {
-    background: #666;
-}
-
-/* ==========================================================
-   NEW: SETTINGS — sidebar layout with multiple panels
-========================================================== */
-.settings-win {
-    width: 580px;
-}
-
-.settings-content {
-    flex-direction: row;
-    height: 380px;
-    padding: 0;
-}
-
-.settings-sidebar {
-    width: 160px;
-    background: #252525;
-    border-right: 1px solid #333;
-    padding: 16px 0;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.settings-nav-item {
-    padding: 10px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    color: #aaa;
-    transition: background 0.15s;
-}
-
-.settings-nav-item:hover {
-    background: #333;
-}
-
-.settings-nav-item.active {
-    background: #3a3a3a;
-    color: #fff;
-    font-weight: 600;
-}
-
-.settings-panels {
-    flex: 1;
-    padding: 24px;
-    overflow-y: auto;
-}
-
-.settings-panel {
-    display: none;
-}
-
-.settings-panel.active {
-    display: block;
-}
-
-.settings-panel h3 {
-    font-size: 18px;
-    margin-bottom: 6px;
-    color: #fff;
-}
-
-.settings-hint {
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 16px;
-}
-
-/* Wallpaper thumbnail grid */
-.wallpaper-thumb-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.wallpaper-thumb {
-    width: 100%;
-    aspect-ratio: 16/10;
-    border-radius: 6px;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.2s, transform 0.15s;
-}
-
-.wallpaper-thumb:hover {
-    transform: scale(1.04);
-}
-
-.wallpaper-thumb.selected {
-    border-color: #58a6ff;
-}
-
-/* Settings rows (brightness, display name, etc.) */
-.settings-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-}
-
-.settings-row label {
-    font-size: 13px;
-    color: #ccc;
-    min-width: 80px;
-}
-
-/* custom range slider */
-.styled-range {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 160px;
-    height: 4px;
-    border-radius: 3px;
-    background: #555;
-    outline: none;
-}
-
-.styled-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #58a6ff;
-    cursor: pointer;
-    border: 2px solid #fff;
-}
-
-.settings-text-input {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid #555;
-    background: #2a2a2a;
-    color: #fff;
-    outline: none;
-    font-size: 13px;
-    width: 140px;
-}
-
-.settings-text-input:focus {
-    border-color: #58a6ff;
-}
-
-.settings-apply-btn {
-    padding: 5px 14px;
-    border: none;
-    border-radius: 4px;
-    background: #58a6ff;
-    color: #fff;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.settings-apply-btn:hover {
-    background: #4090e0;
-}
-
-/* About section inside settings */
-.about-info {
-    text-align: center;
-    padding: 20px 0;
-}
-
-.about-logo {
-    font-size: 48px;
-    margin-bottom: 10px;
-}
-
-.about-info h2 {
-    font-size: 20px;
-    margin-bottom: 4px;
-    color: #fff;
-}
-
-.about-info p {
-    color: #999;
-    font-size: 13px;
-}
-
-.about-sub {
-    margin-top: 4px;
-    font-style: italic;
-}
-
-/* old wallpaper-options from original code — kept for backwards compat,
-   but the new thumb grid replaces it in the settings template */
-.wallpaper-options {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.wallpaper-options button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: #333;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s;
-}
-
-.wallpaper-options button:hover {
-    background: #58a6ff;
-}
-
-/* ==========================================================
-   NEW: GUIDE APP
-========================================================== */
-.guide-window {
-    width: 620px;
-}
-
-.guide-content {
-    flex-direction: row;
-    height: 400px;
-}
-
-.guide-sidebar {
-    width: 150px;
-    background: #252525;
-    border-right: 1px solid #333;
-    padding: 14px 0;
-    flex-shrink: 0;
-    overflow-y: auto;
-}
-
-.guide-sidebar h4 {
-    padding: 0 14px 10px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #777;
-    border-bottom: 1px solid #333;
-    margin-bottom: 6px;
-}
-
-.guide-topic {
-    padding: 8px 14px;
-    font-size: 13px;
-    cursor: pointer;
-    color: #aaa;
-    transition: background 0.15s;
-}
-
-.guide-topic:hover {
-    background: #333;
-}
-
-.guide-topic.active {
-    background: #3a3a3a;
-    color: #fff;
-    font-weight: 600;
-}
-
-.guide-body {
-    flex: 1;
-    padding: 24px;
-    overflow-y: auto;
-    line-height: 1.7;
-    font-size: 14px;
-    color: #ddd;
-}
-
-.guide-body h2 {
-    font-size: 20px;
-    margin-bottom: 12px;
-    color: #fff;
-}
-
-.guide-body p {
-    margin-bottom: 12px;
-    color: #ccc;
-}
-
-.guide-body .tip-box {
-    background: rgba(88, 166, 255, 0.1);
-    border-left: 3px solid #58a6ff;
-    padding: 10px 14px;
-    border-radius: 0 6px 6px 0;
-    margin: 14px 0;
-    font-size: 13px;
-    color: #aadaff;
-}
-
-.guide-body kbd {
-    display: inline-block;
-    padding: 1px 6px;
-    background: #444;
-    border: 1px solid #555;
-    border-radius: 3px;
-    font-size: 12px;
-    color: #ddd;
-    font-family: monospace;
-}
-
-/* ==========================================================
-   NEW: BRIGHTNESS OVERLAY
-   A black layer on top of everything. Opacity controlled by JS.
-   pointer-events: none so it doesn't block interaction.
-========================================================== */
-.brightness-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 99998;
-    transition: opacity 0.3s ease;
-}
-
-/* ==========================================================
-   NEW: WELCOME / FIRST-BOOT OOBE
-   Full-screen overlay that guides first-time users through setup.
-========================================================== */
-.welcome-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #0d0d0d, #1a1a2e, #0d0d0d);
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.8s ease;
-}
-
-.welcome-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.welcome-step {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.welcome-step.active {
-    display: flex;
-    opacity: 1;
-}
-
-/* the big "Hello" text */
-.hello-container {
-    text-align: center;
-    cursor: pointer;
-}
-
-.hello-text {
-    font-size: 80px;
-    font-weight: 300;
-    color: #fff;
-    letter-spacing: -2px;
-    transition: opacity 0.4s ease;
-}
-
-.hello-sub {
-    margin-top: 16px;
-    font-size: 14px;
-    color: #666;
-    animation: pulse-subtle 2s ease-in-out infinite;
-}
-
-@keyframes pulse-subtle {
-
-    0%,
-    100% {
-        opacity: 0.5;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-/* general welcome content centering */
-.welcome-center {
-    text-align: center;
-    max-width: 480px;
-    padding: 0 32px;
-}
-
-.welcome-logo-icon {
-    font-size: 64px;
-    margin-bottom: 16px;
-}
-
-.welcome-heading {
-    font-size: 32px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-.welcome-sub-text {
-    font-size: 15px;
-    color: #888;
-    margin-bottom: 28px;
-}
-
-.welcome-input {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px 18px;
-    border: 1px solid #444;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
-.welcome-input:focus {
-    border-color: #58a6ff;
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.welcome-btn {
-    padding: 12px 40px;
-    border: none;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #58a6ff, #3b82f6);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.welcome-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.3);
-}
-
-/* wallpaper picker grid in welcome setup */
-.setup-wallpaper-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 28px;
-}
-
-.setup-wp-thumb {
-    aspect-ratio: 16/10;
-    border-radius: 8px;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    border: 3px solid transparent;
-    transition: border-color 0.2s, transform 0.15s;
-}
-
-.setup-wp-thumb:hover {
-    transform: scale(1.05);
-}
-
-.setup-wp-thumb.selected {
-    border-color: #58a6ff;
-}
-
-/* dots at bottom of welcome screen */
-.welcome-dots {
-    position: absolute;
-    bottom: 32px;
-    display: flex;
-    gap: 8px;
-}
-
-.w-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s;
-}
-
-.w-dot.active {
-    background: #58a6ff;
-}
+.taskbar{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:9998;pointer-events:none}
+.taskbar:empty{display:none}
+.taskbar-tab{pointer-events:auto;background:rgba(30,30,30,0.85);backdrop-filter:blur(16px);border:1px solid var(--t-dock-border);border-radius:8px;padding:6px 14px;color:#ccc;font-size:12px;font-weight:500;cursor:pointer;position:relative;white-space:nowrap;transition:background 0.15s;user-select:none}
+.taskbar-tab:hover{background:rgba(50,50,50,0.95);color:#fff}
+.taskbar-popup{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(40,40,40,0.95);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px;padding-bottom:16px;gap:6px;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:10000;min-width:110px}
+.taskbar-tab:hover .taskbar-popup{display:flex}
+.taskbar-popup-btn{padding:6px 12px;border:none;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;text-align:center;transition:background 0.12s}
+.taskbar-popup-btn.restore-btn{background:var(--t-accent);color:#fff}
+.taskbar-popup-btn.restore-btn:hover{background:var(--t-accent-hover)}
+.taskbar-popup-btn.max-btn{background:#444;color:#ddd}
+.taskbar-popup-btn.max-btn:hover{background:#27c93f;color:#fff}
+
+/* ==================== NOTEPAD (enhanced) ==================== */
+.notes-toolbar{display:flex;align-items:center;gap:4px;padding:6px 10px;background:var(--t-sidebar);border-bottom:1px solid var(--t-border-solid);flex-shrink:0}
+.notes-tb-btn{padding:4px 8px;border:none;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--t-text-dim);font-size:11px;cursor:pointer;transition:background 0.12s}
+.notes-tb-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+.notes-word-count{margin-left:auto;font-size:11px;color:var(--t-text-muted)}
+.notepad-area{width:100%;height:320px;border:none;resize:none;padding:20px;font-size:15px;line-height:1.6;outline:none;background:transparent;color:var(--t-text)}
+
+/* ==================== BROWSER (enhanced) ==================== */
+.browser-window{width:660px}
+.browser-ui{background:var(--t-sidebar);padding:10px;display:flex;justify-content:center;border-bottom:1px solid rgba(0,0,0,0.3)}
+.url-bar{width:80%;padding:6px 12px;border-radius:6px;border:none;background:var(--t-input);color:#ccc;text-align:center;outline:none;font-size:12px}
+.url-bar:focus{border:1px solid var(--t-accent)}
+.browser-content{flex-direction:column;align-items:center;justify-content:center;height:400px;padding:30px 20px;overflow-y:auto}
+.google-logo{font-size:44px;font-weight:600;letter-spacing:2px;margin-bottom:16px}
+.mock-search{width:70%;padding:12px 20px;border-radius:24px;border:1px solid var(--t-border-solid);background:var(--t-input);color:#fff;outline:none;font-size:14px;margin-bottom:24px}
+.mock-search:focus{border-color:var(--t-accent)}
+/* bookmark cards */
+.bookmark-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:80%;max-width:500px}
+.bm-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:10px;text-decoration:none;color:var(--t-text-dim);transition:background 0.15s;cursor:pointer}
+.bm-card:hover{background:rgba(255,255,255,0.06)}
+.bm-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700}
+.bm-card span{font-size:11px;text-align:center}
+
+/* ==================== PAINT (enhanced) ==================== */
+.paint-win{width:560px}
+.paint-container{flex-direction:column}
+.paint-controls{display:flex;gap:8px;padding:8px 10px;background:var(--t-sidebar);border-bottom:1px solid rgba(0,0,0,0.3);align-items:center;flex-wrap:wrap}
+.paint-tools{display:flex;gap:3px}
+.paint-tool{width:28px;height:28px;border:1px solid var(--t-border-solid);border-radius:4px;background:transparent;color:var(--t-text-dim);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all 0.12s}
+.paint-tool:hover{background:rgba(255,255,255,0.08)}
+.paint-tool.active{background:var(--t-accent);color:#fff;border-color:var(--t-accent)}
+.paintColor{width:28px;height:28px;border:none;border-radius:4px;cursor:pointer;padding:0}
+.color-presets{display:flex;gap:3px}
+.preset{width:18px;height:18px;border-radius:3px;cursor:pointer;transition:transform 0.1s}
+.preset:hover{transform:scale(1.2)}
+.paintSize{width:80px;-webkit-appearance:none;height:3px;border-radius:2px;background:#555;outline:none}
+.paintSize::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--t-accent);cursor:pointer}
+.paint-act-btn{padding:3px 8px;border:none;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--t-text-dim);cursor:pointer;font-size:13px;transition:background 0.12s}
+.paint-act-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+.paintCanvas{background:#fff;cursor:crosshair}
+
+/* ==================== CALCULATOR ==================== */
+.calc-window{width:280px}
+.calc-content{flex-direction:column;height:380px}
+.calc-display{padding:20px 16px;font-size:36px;font-weight:300;color:#fff;text-align:right;background:var(--t-content);min-height:80px;display:flex;align-items:flex-end;justify-content:flex-end;word-break:break-all;line-height:1.1}
+.calc-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--t-border-solid);flex:1}
+.calc-btn{border:none;font-size:18px;font-weight:400;cursor:pointer;background:var(--t-sidebar);color:var(--t-text);transition:background 0.1s;display:flex;align-items:center;justify-content:center}
+.calc-btn:hover{background:rgba(255,255,255,0.08)}
+.calc-btn:active{background:rgba(255,255,255,0.15)}
+.calc-btn.func{background:rgba(255,255,255,0.06);color:var(--t-text-dim)}
+.calc-btn.op{background:var(--t-accent);color:#fff;font-weight:600}
+.calc-btn.op:hover{filter:brightness(1.15)}
+.calc-btn.zero{grid-column:span 2}
+.calc-btn.equals{background:var(--t-accent)}
+
+/* ==================== MUSIC ==================== */
+.music-window{width:620px}
+.music-content{flex-direction:row;height:480px}
+.music-sidebar{width:140px;background:var(--t-sidebar);border-right:1px solid var(--t-border-solid);padding:14px 0;flex-shrink:0;overflow-y:auto}
+.music-sidebar h4{padding:0 14px 10px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--t-text-muted);border-bottom:1px solid var(--t-border-solid);margin-bottom:6px}
+.music-genre{padding:7px 14px;font-size:13px;cursor:pointer;color:var(--t-text-dim);transition:background 0.15s}
+.music-genre:hover{background:rgba(255,255,255,0.05)}
+.music-genre.active{background:rgba(255,255,255,0.08);color:#fff;font-weight:600;border-left:3px solid var(--t-accent)}
+.music-main{flex:1;display:flex;flex-direction:column;padding:14px;overflow-y:auto}
+.now-playing{display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px}
+.np-art{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--t-accent),var(--t-accent2,var(--t-accent-hover)));flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.np-art::after{content:'♫';color:rgba(255,255,255,0.8);font-size:22px}
+.np-info{flex:1;min-width:0}
+.np-title{font-size:15px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-artist{font-size:12px;color:var(--t-text-muted);margin-top:2px}
+.equalizer{display:flex;align-items:flex-end;gap:3px;height:28px}
+.equalizer span{width:4px;background:var(--t-accent);border-radius:2px}
+.equalizer.playing span{animation:eq-bounce 0.6s ease-in-out infinite alternate}
+.equalizer span:nth-child(1){height:8px;animation-delay:0s}
+.equalizer span:nth-child(2){height:16px;animation-delay:0.1s}
+.equalizer span:nth-child(3){height:24px;animation-delay:0.2s}
+.equalizer span:nth-child(4){height:12px;animation-delay:0.15s}
+.equalizer span:nth-child(5){height:20px;animation-delay:0.05s}
+@keyframes eq-bounce{0%{height:4px}100%{height:28px}}
+.player-progress{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.time-el{font-size:11px;color:var(--t-text-muted);min-width:32px;text-align:center}
+.progress-bar{flex:1;-webkit-appearance:none;height:4px;border-radius:3px;background:var(--t-border-solid);outline:none;cursor:pointer}
+.progress-bar::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--t-accent);cursor:pointer}
+.player-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.ctrl-btn{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.06);color:var(--t-text-dim);font-size:14px;cursor:pointer;transition:background 0.15s,color 0.15s;display:flex;align-items:center;justify-content:center}
+.ctrl-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
+.ctrl-btn.play-btn{width:42px;height:42px;background:var(--t-accent);color:#fff;font-size:16px}
+.ctrl-btn.play-btn:hover{background:var(--t-accent-hover)}
+.ctrl-btn.active{color:var(--t-accent)}
+.volume-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;justify-content:center}
+.vol-icon{font-size:14px}
+.volume-slider{width:120px;-webkit-appearance:none;height:4px;border-radius:3px;background:var(--t-border-solid);outline:none}
+.volume-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--t-accent);cursor:pointer}
+.music-search{width:100%;padding:7px 12px;border-radius:6px;border:1px solid var(--t-border-solid);background:var(--t-input);color:var(--t-text);outline:none;font-size:12px;margin-bottom:10px}
+.music-search:focus{border-color:var(--t-accent)}
+.track-list{flex:1;overflow-y:auto}
+.track-item{display:flex;align-items:center;padding:7px 10px;border-radius:6px;cursor:pointer;transition:background 0.12s;gap:10px}
+.track-item:hover{background:rgba(255,255,255,0.05)}
+.track-item.playing{background:rgba(255,255,255,0.08)}
+.track-item.playing .t-title{color:var(--t-accent)}
+.t-num{font-size:12px;color:var(--t-text-muted);min-width:22px;text-align:right}
+.t-info{flex:1;min-width:0}
+.t-title{font-size:13px;font-weight:500;color:var(--t-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-artist{font-size:11px;color:var(--t-text-muted)}
+
+/* ==================== SETTINGS ==================== */
+.settings-win{width:640px}
+.settings-content{flex-direction:row;height:440px;padding:0}
+.settings-sidebar{width:160px;background:var(--t-sidebar);border-right:1px solid var(--t-border-solid);padding:16px 0;flex-shrink:0}
+.settings-nav-item{padding:10px 16px;font-size:13px;cursor:pointer;color:var(--t-text-dim);transition:background 0.15s}
+.settings-nav-item:hover{background:rgba(255,255,255,0.05)}
+.settings-nav-item.active{background:rgba(255,255,255,0.08);color:#fff;font-weight:600}
+.settings-panels{flex:1;padding:24px;overflow-y:auto}
+.settings-panel{display:none}
+.settings-panel.active{display:block}
+.settings-panel h3{font-size:18px;margin-bottom:6px;color:#fff}
+.settings-hint{font-size:13px;color:var(--t-text-muted);margin-bottom:16px}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.theme-card{border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s,transform 0.15s;font-size:12px;font-weight:600;color:#fff}
+.theme-card:hover{transform:scale(1.04)}
+.theme-card.selected{border-color:#fff}
+.wp-cat-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.wp-cat-tab{padding:5px 12px;border-radius:14px;border:1px solid var(--t-border-solid);background:transparent;color:var(--t-text-dim);font-size:12px;cursor:pointer;transition:all 0.15s}
+.wp-cat-tab:hover{background:rgba(255,255,255,0.05)}
+.wp-cat-tab.active{background:var(--t-accent);color:#fff;border-color:var(--t-accent)}
+.wallpaper-thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-height:300px;overflow-y:auto}
+.wallpaper-thumb{width:100%;aspect-ratio:16/10;border-radius:6px;background-size:cover;background-position:center;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s,transform 0.15s}
+.wallpaper-thumb:hover{transform:scale(1.04)}
+.wallpaper-thumb.selected{border-color:var(--t-accent)}
+.dock-pos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.dock-pos-btn{padding:16px;border:2px solid var(--t-border-solid);border-radius:10px;background:transparent;color:var(--t-text-dim);font-size:14px;cursor:pointer;transition:all 0.15s}
+.dock-pos-btn:hover{background:rgba(255,255,255,0.05)}
+.dock-pos-btn.active{border-color:var(--t-accent);color:var(--t-accent);background:rgba(255,255,255,0.04)}
+.settings-row{display:flex;align-items:center;gap:12px;margin-top:16px}
+.settings-row label{font-size:13px;color:#ccc;min-width:80px}
+.styled-range{-webkit-appearance:none;width:160px;height:4px;border-radius:3px;background:#555;outline:none}
+.styled-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--t-accent);cursor:pointer;border:2px solid #fff}
+.settings-text-input{padding:6px 10px;border-radius:4px;border:1px solid #555;background:var(--t-input);color:#fff;outline:none;font-size:13px;width:140px}
+.settings-text-input:focus{border-color:var(--t-accent)}
+.settings-apply-btn{padding:5px 14px;border:none;border-radius:4px;background:var(--t-accent);color:#fff;cursor:pointer;font-size:12px;font-weight:600}
+.settings-apply-btn:hover{background:var(--t-accent-hover)}
+.about-info{text-align:center;padding:20px 0}
+.about-info h2{font-size:20px;margin-bottom:4px;color:#fff}
+.about-info p{color:#999;font-size:13px}
+.about-sub{margin-top:4px;font-style:italic}
+
+/* ==================== GUIDE ==================== */
+.guide-window{width:620px}
+.guide-content{flex-direction:row;height:400px}
+.guide-sidebar{width:150px;background:var(--t-sidebar);border-right:1px solid var(--t-border-solid);padding:14px 0;flex-shrink:0;overflow-y:auto}
+.guide-sidebar h4{padding:0 14px 10px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--t-text-muted);border-bottom:1px solid var(--t-border-solid);margin-bottom:6px}
+.guide-topic{padding:8px 14px;font-size:13px;cursor:pointer;color:var(--t-text-dim);transition:background 0.15s}
+.guide-topic:hover{background:rgba(255,255,255,0.05)}
+.guide-topic.active{background:rgba(255,255,255,0.08);color:#fff;font-weight:600}
+.guide-body{flex:1;padding:24px;overflow-y:auto;line-height:1.7;font-size:14px;color:#ddd}
+.guide-body h2{font-size:20px;margin-bottom:12px;color:#fff}
+.guide-body p{margin-bottom:12px;color:#ccc}
+.guide-body .tip-box{background:rgba(88,166,255,0.1);border-left:3px solid var(--t-accent);padding:10px 14px;border-radius:0 6px 6px 0;margin:14px 0;font-size:13px;color:#aadaff}
+.guide-body kbd{display:inline-block;padding:1px 6px;background:#444;border:1px solid #555;border-radius:3px;font-size:12px;color:#ddd;font-family:monospace}
+
+/* ==================== BRIGHTNESS / WELCOME ==================== */
+.brightness-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0;pointer-events:none;z-index:99998;transition:opacity 0.3s ease}
+.welcome-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#0d0d0d,#1a1a2e,#0d0d0d);z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity 0.8s ease}
+.welcome-overlay.hidden{opacity:0;pointer-events:none}
+.welcome-step{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:opacity 0.6s ease}
+.welcome-step.active{display:flex;opacity:1}
+.hello-container{text-align:center;cursor:pointer}
+.hello-text{font-size:80px;font-weight:300;color:#fff;letter-spacing:-2px;transition:opacity 0.4s ease}
+.hello-sub{margin-top:16px;font-size:14px;color:#666;animation:pulse-subtle 2s ease-in-out infinite}
+@keyframes pulse-subtle{0%,100%{opacity:0.5}50%{opacity:1}}
+.welcome-center{text-align:center;max-width:520px;padding:0 32px}
+.welcome-mango-logo{margin-bottom:16px}
+.welcome-heading{font-size:32px;font-weight:600;color:#fff;margin-bottom:10px}
+.welcome-sub-text{font-size:15px;color:#888;margin-bottom:28px}
+.welcome-input{width:100%;max-width:300px;padding:12px 18px;border:1px solid #444;border-radius:10px;background:rgba(255,255,255,0.08);color:#fff;font-size:16px;outline:none;margin-bottom:24px;text-align:center}
+.welcome-input:focus{border-color:#58a6ff;background:rgba(255,255,255,0.12)}
+.welcome-btn{padding:12px 40px;border:none;border-radius:24px;background:linear-gradient(135deg,#58a6ff,#3b82f6);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s}
+.welcome-btn:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(88,166,255,0.3)}
+.setup-wallpaper-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+.setup-wp-thumb{aspect-ratio:16/10;border-radius:8px;background-size:cover;background-position:center;cursor:pointer;border:3px solid transparent;transition:border-color 0.2s,transform 0.15s}
+.setup-wp-thumb:hover{transform:scale(1.05)}
+.setup-wp-thumb.selected{border-color:#58a6ff}
+.welcome-dots{position:absolute;bottom:32px;display:flex;gap:8px}
+.w-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:background 0.3s}
+.w-dot.active{background:#58a6ff}
