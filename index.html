@@ -1,396 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CopyMac OS 1</title>
+    <title>CopyMac OS 2</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.5 26C7 24 3.5 19 3.5 13C3.5 7 7 3 12 3.5C17 3 20.5 7 20.5 13C20.5 19 17 24 12.5 26Z' fill='%23F4A020'/%3E%3Cpath d='M13 3.5C15 1.5 17.5 1.5 19 3' stroke='%232E7D32' fill='none' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
 </head>
+<body id="os-body" data-theme="default" data-dock="bottom">
 
-<body id="os-body">
-
-    <!-- ============================================
-         WELCOME / FIRST-BOOT SETUP SCREEN
-         Like macOS out-of-box experience (OOBE)
-         Only shows on first visit (checked via localStorage)
-    ============================================= -->
+    <!-- WELCOME SCREEN -->
     <div id="welcome-overlay" class="welcome-overlay">
-
-        <!-- Step 1: rotating "Hello" in different languages -->
         <div class="welcome-step active" data-step="1">
-            <div class="hello-container">
-                <h1 class="hello-text" id="hello-rotating">Hello</h1>
-                <p class="hello-sub">Click anywhere to continue</p>
-            </div>
+            <div class="hello-container"><h1 class="hello-text" id="hello-rotating">Hello</h1><p class="hello-sub">Click anywhere to continue</p></div>
         </div>
-
-        <!-- Step 2: Intro message -->
         <div class="welcome-step" data-step="2">
             <div class="welcome-center">
-                <div class="welcome-logo-icon">&#x1F34E;</div>
-                <h1 class="welcome-heading">Welcome to CopyMac OS 1</h1>
+                <svg class="welcome-mango-logo" viewBox="0 0 24 28" width="72" height="84"><path d="M12.5 26C7 24 3.5 19 3.5 13C3.5 7 7 3 12 3.5C17 3 20.5 7 20.5 13C20.5 19 17 24 12.5 26Z" fill="#F4A020"/><path d="M13 3.5C15 1.5 17.5 1.5 19 3" stroke="#2E7D32" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <h1 class="welcome-heading">Welcome to CopyMac OS 2</h1>
                 <p class="welcome-sub-text">Your personal desktop, right in the browser.</p>
                 <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
             </div>
         </div>
-
-        <!-- Step 3: enter name -->
         <div class="welcome-step" data-step="3">
             <div class="welcome-center">
                 <h1 class="welcome-heading">What should we call you?</h1>
                 <p class="welcome-sub-text">This will appear on your menu bar.</p>
-                <input type="text" id="setup-username" class="welcome-input" placeholder="Enter your name"
-                    maxlength="20" autocomplete="off">
+                <input type="text" id="setup-username" class="welcome-input" placeholder="Enter your name" maxlength="20" autocomplete="off">
                 <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
             </div>
         </div>
-
-        <!-- Step 4: pick wallpaper -->
         <div class="welcome-step" data-step="4">
             <div class="welcome-center">
                 <h1 class="welcome-heading">Pick your look</h1>
                 <p class="welcome-sub-text">You can always change this later in Settings.</p>
-                <div class="setup-wallpaper-grid" id="setup-wallpapers">
-                    <!-- dynamically filled by script.js -->
-                </div>
+                <div class="setup-wallpaper-grid" id="setup-wallpapers"></div>
                 <button class="welcome-btn" onclick="welcomeNext()">Continue</button>
             </div>
         </div>
-
-        <!-- Step 5: done -->
         <div class="welcome-step" data-step="5">
             <div class="welcome-center">
                 <h1 class="welcome-heading" id="welcome-final-msg">You're all set!</h1>
-                <p class="welcome-sub-text">Enjoy CopyMac OS 1.</p>
+                <p class="welcome-sub-text">Enjoy CopyMac OS 2.</p>
                 <button class="welcome-btn" onclick="finishWelcome()">Get Started</button>
             </div>
         </div>
-
-        <!-- progress dots -->
-        <div class="welcome-dots">
-            <span class="w-dot active" data-dot="1"></span>
-            <span class="w-dot" data-dot="2"></span>
-            <span class="w-dot" data-dot="3"></span>
-            <span class="w-dot" data-dot="4"></span>
-            <span class="w-dot" data-dot="5"></span>
-        </div>
+        <div class="welcome-dots"><span class="w-dot active" data-dot="1"></span><span class="w-dot" data-dot="2"></span><span class="w-dot" data-dot="3"></span><span class="w-dot" data-dot="4"></span><span class="w-dot" data-dot="5"></span></div>
     </div>
 
-    <!-- BRIGHTNESS OVERLAY — dark layer to simulate brightness control -->
     <div id="brightness-overlay" class="brightness-overlay"></div>
 
-    <!-- Top Menu Bar -->
-    <div class="menubar">
+    <!-- Menu Bar -->
+    <div class="menubar" id="menubar">
         <div class="menu-left">
-            <span class="apple-logo">&#x1F34E;</span>
-            <strong id="os-name-display">CopyMac OS 1</strong>
-            <span>File</span>
-            <span>Edit</span>
-            <span>View</span>
-            <span>Window</span>
-            <span>Help</span>
+            <span class="menu-logo"><svg viewBox="0 0 24 28" width="14" height="16"><path d="M12.5 26C7 24 3.5 19 3.5 13C3.5 7 7 3 12 3.5C17 3 20.5 7 20.5 13C20.5 19 17 24 12.5 26Z" fill="currentColor"/><path d="M13 3.5C15 1.5 17.5 1.5 19 3" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <strong id="os-name-display">CopyMac OS 2</strong>
+            <span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
         </div>
         <div class="menu-right">
             <span id="user-greeting"></span>
-            <span>&#x1F50B; 100%</span>
-            <span>&#x1F4F6;</span>
-            <span id="clock">12:00 AM</span>
+            <span id="now-playing-mini"></span>
+            <span>&#x1F50B; 100%</span><span>&#x1F4F6;</span><span id="clock">12:00 AM</span>
         </div>
     </div>
 
-    <!-- Desktop Area -->
     <div id="desktop"></div>
-
-    <!-- Taskbar — minimized apps appear here as small tabs (like Windows) -->
     <div id="taskbar" class="taskbar"></div>
 
-    <!-- ===================== THE DOCK ===================== -->
-    <div class="dock-container">
-        <div class="dock">
-
-            <!-- Notes -->
+    <!-- DOCK -->
+    <div class="dock-container" id="dock-container">
+        <div class="dock" id="dock">
             <div class="dock-icon" onclick="openApp('notepad')" title="Notes">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="notesBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#FFF4B8" />
-                            <stop offset="100%" stop-color="#FCDA62" />
-                        </linearGradient>
-                        <linearGradient id="notesHeader" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#E53935" />
-                            <stop offset="100%" stop-color="#B71C1C" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="8" y="6" width="48" height="52" rx="10" fill="url(#notesBg)"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <path d="M 8 16 L 56 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z"
-                        fill="url(#notesHeader)" />
-                    <line x1="16" y1="26" x2="48" y2="26" stroke="#D4A72C" stroke-width="2.5"
-                        stroke-linecap="round" />
-                    <line x1="16" y1="35" x2="48" y2="35" stroke="#D4A72C" stroke-width="2.5"
-                        stroke-linecap="round" />
-                    <line x1="16" y1="44" x2="36" y2="44" stroke="#D4A72C" stroke-width="2.5"
-                        stroke-linecap="round" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="notesBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#FFF4B8"/><stop offset="100%" stop-color="#FCDA62"/></linearGradient><linearGradient id="notesHeader" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#E53935"/><stop offset="100%" stop-color="#B71C1C"/></linearGradient></defs><rect x="8" y="6" width="48" height="52" rx="10" fill="url(#notesBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><path d="M 8 16 L 56 16 L 56 12 C 56 8.68 53.32 6 50 6 L 14 6 C 10.68 6 8 8.68 8 12 Z" fill="url(#notesHeader)"/><line x1="16" y1="26" x2="48" y2="26" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="35" x2="48" y2="35" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="44" x2="36" y2="44" stroke="#D4A72C" stroke-width="2.5" stroke-linecap="round"/></svg>
             </div>
-
-            <!-- Browser -->
             <div class="dock-icon" onclick="openApp('browser')" title="Browser">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="browserBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#FFFFFF" />
-                            <stop offset="100%" stop-color="#E8EAED" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#browserBg)"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <path
-                        d="M 43.1 32.8 C 43.1 31.4 43 30.1 42.7 28.8 L 32 28.8 L 32 35.7 L 38.3 35.7 C 38 37.3 37.1 38.7 35.7 39.6 L 35.7 42.9 L 39.8 42.9 C 42.3 40.6 43.1 37 43.1 32.8 Z"
-                        fill="#4285F4" />
-                    <path
-                        d="M 32 44.1 C 35.3 44.1 38 43 40 41.2 L 35.9 38 C 34.8 38.8 33.5 39.2 32 39.2 C 28.8 39.2 26.1 37.1 25.1 34.2 L 20.9 34.2 L 20.9 37.5 C 22.9 41.4 27.1 44.1 32 44.1 Z"
-                        fill="#34A853" />
-                    <path
-                        d="M 25.1 34.2 C 24.8 33.4 24.7 32.5 24.7 31.6 C 24.7 30.7 24.8 29.8 25.1 29 L 25.1 25.7 L 20.9 25.7 C 20.1 27.4 19.6 29.4 19.6 31.6 C 19.6 33.8 20.1 35.8 20.9 37.5 L 25.1 34.2 Z"
-                        fill="#FBBC05" />
-                    <path
-                        d="M 32 24 C 33.8 24 35.4 24.6 36.7 25.8 L 40.1 22.4 C 38 20.4 35.3 19.1 32 19.1 C 27.1 19.1 22.9 21.8 20.9 25.7 L 25.1 29 C 26.1 26.1 28.8 24 32 24 Z"
-                        fill="#EA4335" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><path d="M43.1 32.8C43.1 31.4 43 30.1 42.7 28.8L32 28.8V35.7H38.3C38 37.3 37.1 38.7 35.7 39.6V42.9H39.8C42.3 40.6 43.1 37 43.1 32.8Z" fill="#4285F4"/><path d="M32 44.1C35.3 44.1 38 43 40 41.2L35.9 38C34.8 38.8 33.5 39.2 32 39.2C28.8 39.2 26.1 37.1 25.1 34.2H20.9V37.5C22.9 41.4 27.1 44.1 32 44.1Z" fill="#34A853"/><path d="M25.1 34.2C24.8 33.4 24.7 32.5 24.7 31.6C24.7 30.7 24.8 29.8 25.1 29V25.7H20.9C20.1 27.4 19.6 29.4 19.6 31.6C19.6 33.8 20.1 35.8 20.9 37.5L25.1 34.2Z" fill="#FBBC05"/><path d="M32 24C33.8 24 35.4 24.6 36.7 25.8L40.1 22.4C38 20.4 35.3 19.1 32 19.1C27.1 19.1 22.9 21.8 20.9 25.7L25.1 29C26.1 26.1 28.8 24 32 24Z" fill="#EA4335"/></svg>
             </div>
-
-            <!-- Paint -->
             <div class="dock-icon" onclick="openApp('paint')" title="Paint Studio">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="paintBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#F5E3C3" />
-                            <stop offset="100%" stop-color="#D7B17C" />
-                        </linearGradient>
-                    </defs>
-                    <path
-                        d="M 32 6 C 17.6 6 6 17.6 6 32 C 6 46.4 17.6 58 32 58 C 36.5 58 40.5 55.5 42 51.5 C 43 48.8 45.8 47.5 48.5 48.5 C 50 49 52 48.5 53 47 C 56 42.5 58 37.5 58 32 C 58 17.6 46.4 6 32 6 Z"
-                        fill="url(#paintBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <circle cx="48" cy="38" r="4.5" fill="#2D2B2A" />
-                    <circle cx="20" cy="22" r="5" fill="#E53935" />
-                    <circle cx="34" cy="17" r="5" fill="#FFB300" />
-                    <circle cx="47" cy="24" r="5" fill="#1E88E5" />
-                    <circle cx="18" cy="36" r="5" fill="#43A047" />
-                    <circle cx="27" cy="47" r="5" fill="#8E24AA" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><path d="M32 6C17.6 6 6 17.6 6 32C6 46.4 17.6 58 32 58C36.5 58 40.5 55.5 42 51.5C43 48.8 45.8 47.5 48.5 48.5C50 49 52 48.5 53 47C56 42.5 58 37.5 58 32C58 17.6 46.4 6 32 6Z" fill="#F5E3C3" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><circle cx="48" cy="38" r="4.5" fill="#2D2B2A"/><circle cx="20" cy="22" r="5" fill="#E53935"/><circle cx="34" cy="17" r="5" fill="#FFB300"/><circle cx="47" cy="24" r="5" fill="#1E88E5"/><circle cx="18" cy="36" r="5" fill="#43A047"/><circle cx="27" cy="47" r="5" fill="#8E24AA"/></svg>
             </div>
-
-            <!-- YouTube (opens real site) -->
+            <div class="dock-icon" onclick="openApp('music')" title="Music Player">
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="musicBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FC466B"/><stop offset="100%" stop-color="#3F5EFB"/></linearGradient></defs><rect x="6" y="6" width="52" height="52" rx="12" fill="url(#musicBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><path d="M40 18V36C40 39.3 37.3 42 34 42C30.7 42 28 39.3 28 36C28 32.7 30.7 30 34 30C35.2 30 36.3 30.4 37 31V22L28 24.5V38C28 41.3 25.3 44 22 44C18.7 44 16 41.3 16 38C16 34.7 18.7 32 22 32C23.2 32 24.3 32.4 25 33V20L40 18Z" fill="white" opacity="0.95"/></svg>
+            </div>
             <div class="dock-icon" onclick="openApp('youtube')" title="YouTube">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <rect x="6" y="6" width="52" height="52" rx="12" fill="#FF0000"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <polygon points="26,20 26,44 44,32" fill="#FFFFFF" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><rect x="6" y="6" width="52" height="52" rx="12" fill="#FF0000" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><polygon points="26,20 26,44 44,32" fill="#FFF"/></svg>
             </div>
-
-            <!-- StarDance (opens real site) -->
-            <div class="dock-icon" onclick="openApp('stardance')" title="StarDance Challenge">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="starBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#6C63FF" />
-                            <stop offset="100%" stop-color="#3F3D99" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#starBg)"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <polygon points="32,14 36,26 48,26 38,33 42,45 32,37 22,45 26,33 16,26 28,26"
-                        fill="#FFD700" />
-                </svg>
+            <div class="dock-icon" onclick="openApp('stardance')" title="StarDance — NASA x Hack Club Coding Competition">
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="starBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0B3D91"/><stop offset="100%" stop-color="#1B1B3A"/></linearGradient></defs><rect x="6" y="6" width="52" height="52" rx="12" fill="url(#starBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><polygon points="32,14 36,26 48,26 38,33 42,45 32,37 22,45 26,33 16,26 28,26" fill="#FFD700"/><circle cx="18" cy="16" r="1" fill="#fff" opacity="0.6"/><circle cx="48" cy="42" r="1.2" fill="#fff" opacity="0.5"/></svg>
             </div>
-
-            <!-- Guide / Help -->
+            <div class="dock-icon" onclick="openApp('calculator')" title="Calculator">
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="calcBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#555"/><stop offset="100%" stop-color="#222"/></linearGradient></defs><rect x="8" y="6" width="48" height="52" rx="10" fill="url(#calcBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><rect x="14" y="12" width="36" height="14" rx="4" fill="#1a1a1a"/><text x="44" y="23" fill="#4caf50" font-size="12" text-anchor="end" font-family="monospace">0</text><rect x="14" y="30" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="24" y="30" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="34" y="30" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="44" y="30" width="8" height="7" rx="2" fill="#ff9800"/><rect x="14" y="39" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="24" y="39" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="34" y="39" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="44" y="39" width="8" height="7" rx="2" fill="#ff9800"/><rect x="14" y="48" width="18" height="7" rx="2" fill="#e0e0e0"/><rect x="34" y="48" width="8" height="7" rx="2" fill="#e0e0e0"/><rect x="44" y="48" width="8" height="7" rx="2" fill="#4caf50"/></svg>
+            </div>
             <div class="dock-icon" onclick="openApp('guide')" title="User Guide">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="guideBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#42A5F5" />
-                            <stop offset="100%" stop-color="#1565C0" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#guideBg)"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <!-- book icon shape -->
-                    <rect x="16" y="14" width="32" height="36" rx="3" fill="#fff" opacity="0.95" />
-                    <rect x="16" y="14" width="16" height="36" rx="3" fill="#E3F2FD" />
-                    <line x1="32" y1="14" x2="32" y2="50" stroke="#90CAF9" stroke-width="2" />
-                    <line x1="21" y1="24" x2="28" y2="24" stroke="#1565C0" stroke-width="1.5" />
-                    <line x1="21" y1="29" x2="27" y2="29" stroke="#1565C0" stroke-width="1.5" />
-                    <line x1="21" y1="34" x2="26" y2="34" stroke="#1565C0" stroke-width="1.5" />
-                    <line x1="36" y1="24" x2="43" y2="24" stroke="#1565C0" stroke-width="1.5" />
-                    <line x1="36" y1="29" x2="42" y2="29" stroke="#1565C0" stroke-width="1.5" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="guideBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#42A5F5"/><stop offset="100%" stop-color="#1565C0"/></linearGradient></defs><rect x="6" y="6" width="52" height="52" rx="12" fill="url(#guideBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><rect x="16" y="14" width="32" height="36" rx="3" fill="#fff" opacity="0.95"/><rect x="16" y="14" width="16" height="36" rx="3" fill="#E3F2FD"/><line x1="32" y1="14" x2="32" y2="50" stroke="#90CAF9" stroke-width="2"/><line x1="21" y1="24" x2="28" y2="24" stroke="#1565C0" stroke-width="1.5"/><line x1="21" y1="29" x2="27" y2="29" stroke="#1565C0" stroke-width="1.5"/><line x1="36" y1="24" x2="43" y2="24" stroke="#1565C0" stroke-width="1.5"/></svg>
             </div>
-
-            <!-- Settings -->
             <div class="dock-icon" onclick="openApp('settings')" title="Settings">
-                <svg viewBox="0 0 64 64" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="settingsBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#8E8E93" />
-                            <stop offset="100%" stop-color="#48484A" />
-                        </linearGradient>
-                        <linearGradient id="gearMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#FFFFFF" />
-                            <stop offset="100%" stop-color="#B0B0B5" />
-                        </linearGradient>
-                    </defs>
-                    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#settingsBg)"
-                        filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))" />
-                    <path
-                        d="M 35.5 16 L 28.5 16 L 27.5 20.2 C 26.2 20.7 25 21.4 23.9 22.3 L 19.8 20.6 L 14.8 25.6 L 16.5 29.7 C 15.6 30.8 14.9 32 14.4 33.3 L 10.2 34.3 L 10.2 41.3 L 14.4 42.3 C 14.9 43.6 15.6 44.8 16.5 45.9 L 14.8 50 L 19.8 55 L 23.9 53.3 C 25 54.2 26.2 54.9 27.5 55.4 L 28.5 59.6 L 35.5 59.6 L 36.5 55.4 C 37.8 54.9 39 54.2 40.1 53.3 L 44.2 55 L 49.2 50 L 47.5 45.9 C 48.4 44.8 49.1 43.6 49.6 42.3 L 53.8 41.3 L 53.8 34.3 L 49.6 33.3 C 49.1 32 48.4 30.8 47.5 29.7 L 49.2 25.6 L 44.2 20.6 L 40.1 22.3 C 39 21.4 37.8 20.7 36.5 20.2 Z M 32 45 C 24.8 45 19 39.2 19 32 C 19 24.8 24.8 19 32 19 C 39.2 19 45 24.8 45 32 C 45 39.2 39.2 45 32 45 Z"
-                        fill="url(#gearMetal)" transform="scale(0.7) translate(14, 14)" />
-                </svg>
+                <svg viewBox="0 0 64 64" width="100%" height="100%"><defs><linearGradient id="settingsBg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8E8E93"/><stop offset="100%" stop-color="#48484A"/></linearGradient></defs><rect x="6" y="6" width="52" height="52" rx="12" fill="url(#settingsBg)" filter="drop-shadow(0px 3px 5px rgba(0,0,0,0.3))"/><circle cx="32" cy="32" r="10" fill="none" stroke="#fff" stroke-width="3"/><circle cx="32" cy="32" r="4" fill="#fff"/><line x1="32" y1="12" x2="32" y2="18" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="46" x2="32" y2="52" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="12" y1="32" x2="18" y2="32" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="46" y1="32" x2="52" y2="32" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="17.8" y1="17.8" x2="22" y2="22" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="42" y1="42" x2="46.2" y2="46.2" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="46.2" y1="17.8" x2="42" y2="22" stroke="#fff" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="42" x2="17.8" y2="46.2" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
             </div>
         </div>
     </div>
 
-    <!-- ===================== APP TEMPLATES ===================== -->
+    <!-- ============ APP TEMPLATES ============ -->
 
+    <!-- NOTES — enhanced with toolbar, auto-save, word count -->
     <template id="notepad-template">
         <div class="window draggable">
-            <div class="titlebar">
-                <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
-                    </div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
-                    </div>
-                </div>
-                <div class="window-title">System Notes</div>
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">Notes</div></div>
+            <div class="notes-toolbar">
+                <button class="notes-tb-btn" onclick="noteSave(this)" title="Save">&#x1F4BE; Save</button>
+                <button class="notes-tb-btn" onclick="noteLoad(this)" title="Load Saved">&#x1F4C2; Load</button>
+                <button class="notes-tb-btn" onclick="noteInsertDate(this)" title="Insert Date">&#x1F4C5; Date</button>
+                <button class="notes-tb-btn" onclick="noteClear(this)" title="Clear">&#x1F5D1; Clear</button>
+                <span class="notes-word-count" id="note-wc">0 words</span>
             </div>
-            <div class="window-content">
-                <textarea class="notepad-area" placeholder="Start typing your notes here..."></textarea>
-            </div>
+            <div class="window-content"><textarea class="notepad-area" placeholder="Start typing your notes here..." oninput="noteUpdateCount(this)"></textarea></div>
         </div>
     </template>
 
+    <!-- BROWSER — enhanced with bookmarks grid -->
     <template id="browser-template">
         <div class="window draggable browser-window">
-            <div class="titlebar">
-                <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
-                    </div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
-                    </div>
-                </div>
-                <div class="window-title">Browser</div>
-            </div>
-            <div class="browser-ui">
-                <input type="text" class="url-bar" placeholder="Search or enter URL...">
-            </div>
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">Browser</div></div>
+            <div class="browser-ui"><input type="text" class="url-bar" placeholder="Search or enter URL..."></div>
             <div class="window-content browser-content">
-                <h1 class="google-logo">
-                    <span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span
-                        style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span
-                        style="color:#34A853">l</span><span style="color:#EA4335">e</span>
-                </h1>
+                <h1 class="google-logo"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span></h1>
                 <input type="text" class="mock-search" placeholder="Search Google or type a URL">
+                <div class="bookmark-grid">
+                    <a class="bm-card" href="https://youtube.com" target="_blank"><div class="bm-icon" style="background:#FF0000">&#x25B6;</div><span>YouTube</span></a>
+                    <a class="bm-card" href="https://github.com" target="_blank"><div class="bm-icon" style="background:#333">&#x1F4BB;</div><span>GitHub</span></a>
+                    <a class="bm-card" href="https://wikipedia.org" target="_blank"><div class="bm-icon" style="background:#666">W</div><span>Wikipedia</span></a>
+                    <a class="bm-card" href="https://reddit.com" target="_blank"><div class="bm-icon" style="background:#FF4500">&#x1F916;</div><span>Reddit</span></a>
+                    <a class="bm-card" href="https://twitter.com" target="_blank"><div class="bm-icon" style="background:#1DA1F2">&#x1F426;</div><span>Twitter</span></a>
+                    <a class="bm-card" href="https://stackoverflow.com" target="_blank"><div class="bm-icon" style="background:#F48024">&#x2B13;</div><span>Stack Overflow</span></a>
+                    <a class="bm-card" href="https://stardance.hackclub.com" target="_blank"><div class="bm-icon" style="background:#6C63FF">&#x2605;</div><span>StarDance</span></a>
+                    <a class="bm-card" href="https://developer.mozilla.org" target="_blank"><div class="bm-icon" style="background:#0a84ff">&#x1F4D6;</div><span>MDN Docs</span></a>
+                </div>
             </div>
         </div>
     </template>
 
+    <!-- PAINT — enhanced with tools, palette, undo, download -->
     <template id="paint-template">
-        <div class="window draggable">
-            <div class="titlebar">
-                <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
-                    </div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
-                    </div>
-                </div>
-                <div class="window-title">Canvas Studio</div>
-            </div>
+        <div class="window draggable paint-win">
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">Canvas Studio</div></div>
             <div class="window-content paint-container">
                 <div class="paint-controls">
-                    <input type="color" id="paintColor" value="#000000">
-                    <input type="range" id="paintSize" min="1" max="20" value="3">
-                    <button onclick="clearCanvas(this)" class="clear-btn">Clear</button>
+                    <div class="paint-tools">
+                        <button class="paint-tool active" data-tool="pen" title="Pen">&#x270F;</button>
+                        <button class="paint-tool" data-tool="eraser" title="Eraser">&#x1F9F9;</button>
+                        <button class="paint-tool" data-tool="line" title="Line">&#x2571;</button>
+                    </div>
+                    <input type="color" class="paintColor" value="#000000">
+                    <div class="color-presets">
+                        <span class="preset" style="background:#000" data-color="#000000"></span>
+                        <span class="preset" style="background:#fff;border:1px solid #555" data-color="#ffffff"></span>
+                        <span class="preset" style="background:#e53935" data-color="#e53935"></span>
+                        <span class="preset" style="background:#1e88e5" data-color="#1e88e5"></span>
+                        <span class="preset" style="background:#43a047" data-color="#43a047"></span>
+                        <span class="preset" style="background:#ffb300" data-color="#ffb300"></span>
+                        <span class="preset" style="background:#8e24aa" data-color="#8e24aa"></span>
+                        <span class="preset" style="background:#ff7043" data-color="#ff7043"></span>
+                    </div>
+                    <input type="range" class="paintSize" min="1" max="30" value="3">
+                    <button onclick="paintUndo(this)" class="paint-act-btn" title="Undo">&#x21A9;</button>
+                    <button onclick="clearCanvas(this)" class="paint-act-btn" title="Clear">&#x1F5D1;</button>
+                    <button onclick="paintDownload(this)" class="paint-act-btn" title="Download">&#x2B07;</button>
                 </div>
-                <canvas class="paintCanvas" width="450" height="300"></canvas>
+                <canvas class="paintCanvas" width="520" height="340"></canvas>
             </div>
         </div>
     </template>
 
-    <!-- Settings — now with sidebar navigation, brightness, about panel -->
+    <!-- MUSIC PLAYER — with search -->
+    <template id="music-template">
+        <div class="window draggable music-window">
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">Music</div></div>
+            <div class="window-content music-content">
+                <div class="music-sidebar">
+                    <h4>Library</h4>
+                    <div class="music-genre active" data-genre="all">All Tracks</div>
+                    <div class="music-genre" data-genre="electronic">Electronic</div>
+                    <div class="music-genre" data-genre="chill">Chill</div>
+                    <div class="music-genre" data-genre="classical">Classical</div>
+                    <div class="music-genre" data-genre="ambient">Ambient</div>
+                    <div class="music-genre" data-genre="rock">Rock</div>
+                </div>
+                <div class="music-main">
+                    <div class="now-playing">
+                        <div class="np-art" id="np-art"></div>
+                        <div class="np-info"><div class="np-title" id="np-title">Select a track</div><div class="np-artist" id="np-artist">—</div></div>
+                        <div class="equalizer" id="equalizer"><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="player-progress"><span class="time-el" id="time-current">0:00</span><input type="range" class="progress-bar" id="progress-bar" min="0" max="1000" value="0"><span class="time-el" id="time-total">0:00</span></div>
+                    <div class="player-controls">
+                        <button class="ctrl-btn" id="btn-shuffle" title="Shuffle">&#x21C5;</button>
+                        <button class="ctrl-btn" id="btn-prev" title="Previous">&#x23EE;</button>
+                        <button class="ctrl-btn play-btn" id="btn-play" title="Play">&#x25B6;</button>
+                        <button class="ctrl-btn" id="btn-next" title="Next">&#x23ED;</button>
+                        <button class="ctrl-btn" id="btn-repeat" title="Repeat">&#x21BB;</button>
+                    </div>
+                    <div class="volume-row"><span class="vol-icon">&#x1F508;</span><input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="80"><span class="vol-icon">&#x1F50A;</span></div>
+                    <input type="text" class="music-search" id="music-search" placeholder="&#x1F50D; Search tracks...">
+                    <div class="track-list" id="track-list"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- CALCULATOR -->
+    <template id="calculator-template">
+        <div class="window draggable calc-window">
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">Calculator</div></div>
+            <div class="window-content calc-content">
+                <div class="calc-display" id="calc-display">0</div>
+                <div class="calc-buttons">
+                    <button class="calc-btn func" onclick="calcInput('clear')">AC</button>
+                    <button class="calc-btn func" onclick="calcInput('sign')">+/−</button>
+                    <button class="calc-btn func" onclick="calcInput('%')">%</button>
+                    <button class="calc-btn op" onclick="calcInput('/')">÷</button>
+                    <button class="calc-btn" onclick="calcInput('7')">7</button>
+                    <button class="calc-btn" onclick="calcInput('8')">8</button>
+                    <button class="calc-btn" onclick="calcInput('9')">9</button>
+                    <button class="calc-btn op" onclick="calcInput('*')">×</button>
+                    <button class="calc-btn" onclick="calcInput('4')">4</button>
+                    <button class="calc-btn" onclick="calcInput('5')">5</button>
+                    <button class="calc-btn" onclick="calcInput('6')">6</button>
+                    <button class="calc-btn op" onclick="calcInput('-')">−</button>
+                    <button class="calc-btn" onclick="calcInput('1')">1</button>
+                    <button class="calc-btn" onclick="calcInput('2')">2</button>
+                    <button class="calc-btn" onclick="calcInput('3')">3</button>
+                    <button class="calc-btn op" onclick="calcInput('+')">+</button>
+                    <button class="calc-btn zero" onclick="calcInput('0')">0</button>
+                    <button class="calc-btn" onclick="calcInput('.')">.</button>
+                    <button class="calc-btn op equals" onclick="calcInput('=')">=</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- SETTINGS -->
     <template id="settings-template">
         <div class="window draggable settings-win">
-            <div class="titlebar">
-                <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
-                    </div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
-                    </div>
-                </div>
-                <div class="window-title">System Preferences</div>
-            </div>
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">System Preferences</div></div>
             <div class="window-content settings-content">
                 <div class="settings-sidebar">
-                    <div class="settings-nav-item active" data-panel="wallpaper">&#x1F5BC;&#xFE0F; Wallpaper</div>
+                    <div class="settings-nav-item active" data-panel="appearance">&#x1F3A8; Appearance</div>
+                    <div class="settings-nav-item" data-panel="wallpaper">&#x1F5BC;&#xFE0F; Wallpaper</div>
                     <div class="settings-nav-item" data-panel="display">&#x2600;&#xFE0F; Display</div>
+                    <div class="settings-nav-item" data-panel="layout">&#x1F4D0; Layout</div>
                     <div class="settings-nav-item" data-panel="about">&#x2139;&#xFE0F; About</div>
                 </div>
                 <div class="settings-panels">
-                    <div class="settings-panel active" data-panel="wallpaper">
-                        <h3>Wallpaper</h3>
-                        <p class="settings-hint">Choose a desktop background.</p>
-                        <div class="wallpaper-thumb-grid" id="settings-wallpaper-grid">
-                            <!-- filled by JS -->
-                        </div>
-                    </div>
-                    <div class="settings-panel" data-panel="display">
-                        <h3>Display</h3>
-                        <div class="settings-row">
-                            <label for="brightness-slider">Brightness</label>
-                            <input type="range" id="brightness-slider" min="20" max="100" value="100"
-                                class="styled-range">
-                            <span id="brightness-val">100%</span>
-                        </div>
-                    </div>
-                    <div class="settings-panel" data-panel="about">
-                        <h3>About This Mac</h3>
-                        <div class="about-info">
-                            <div class="about-logo">&#x1F34E;</div>
-                            <h2 id="about-os-name">CopyMac OS 1</h2>
-                            <p>Version 1.0.0</p>
-                            <p class="about-sub">A web-based desktop experience.</p>
-                            <div class="settings-row" style="margin-top: 20px;">
-                                <label for="display-name-input">Display Name</label>
-                                <input type="text" id="display-name-input" class="settings-text-input"
-                                    placeholder="CopyMac OS 1" maxlength="24">
-                                <button class="settings-apply-btn" onclick="updateDisplayName()">Apply</button>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="settings-panel active" data-panel="appearance"><h3>Themes</h3><p class="settings-hint">Choose a theme to transform your entire OS.</p><div class="theme-grid" id="theme-grid"></div></div>
+                    <div class="settings-panel" data-panel="wallpaper"><h3>Wallpaper</h3><div class="wp-cat-tabs" id="wp-cat-tabs"></div><div class="wallpaper-thumb-grid" id="settings-wallpaper-grid"></div></div>
+                    <div class="settings-panel" data-panel="display"><h3>Display</h3><div class="settings-row"><label>Brightness</label><input type="range" id="brightness-slider" min="20" max="100" value="100" class="styled-range"><span id="brightness-val">100%</span></div></div>
+                    <div class="settings-panel" data-panel="layout"><h3>Dock Position</h3><p class="settings-hint">Choose where the dock appears on your screen.</p><div class="dock-pos-grid"><button class="dock-pos-btn active" data-pos="bottom" onclick="setDockPosition('bottom')">&#x2B07; Bottom</button><button class="dock-pos-btn" data-pos="top" onclick="setDockPosition('top')">&#x2B06; Top</button><button class="dock-pos-btn" data-pos="left" onclick="setDockPosition('left')">&#x2B05; Left</button><button class="dock-pos-btn" data-pos="right" onclick="setDockPosition('right')">&#x27A1; Right</button></div></div>
+                    <div class="settings-panel" data-panel="about"><h3>About This Mac</h3><div class="about-info"><svg viewBox="0 0 24 28" width="48" height="56" style="margin-bottom:10px"><path d="M12.5 26C7 24 3.5 19 3.5 13C3.5 7 7 3 12 3.5C17 3 20.5 7 20.5 13C20.5 19 17 24 12.5 26Z" fill="#F4A020"/><path d="M13 3.5C15 1.5 17.5 1.5 19 3" stroke="#2E7D32" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg><h2 id="about-os-name">CopyMac OS 2</h2><p>Version 1.0.0</p><p class="about-sub">A web-based desktop experience.</p><div class="settings-row" style="margin-top:20px;justify-content:center"><label>Display Name</label><input type="text" id="display-name-input" class="settings-text-input" placeholder="CopyMac OS 2" maxlength="24"><button class="settings-apply-btn" onclick="updateDisplayName()">Apply</button></div></div></div>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- Guide / Help app — interactive tutorial -->
+    <!-- GUIDE -->
     <template id="guide-template">
         <div class="window draggable guide-window">
-            <div class="titlebar">
-                <div class="traffic-lights">
-                    <div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div>
-                    <div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span>
-                    </div>
-                    <div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span>
-                    </div>
-                </div>
-                <div class="window-title">CopyMac OS 1 — User Guide</div>
-            </div>
+            <div class="titlebar"><div class="traffic-lights"><div class="dot close" onclick="closeApp(this)"><span class="dot-icon">&#xd7;</span></div><div class="dot minimize" onclick="toggleMinimize(this)"><span class="dot-icon">&#x2212;</span></div><div class="dot maximize" onclick="toggleMaximize(this)"><span class="dot-icon">&#x25A1;</span></div></div><div class="window-title">CopyMac OS 2 — User Guide</div></div>
             <div class="window-content guide-content">
                 <div class="guide-sidebar">
                     <h4>Topics</h4>
@@ -398,18 +272,15 @@
                     <div class="guide-topic" data-topic="1">The Dock</div>
                     <div class="guide-topic" data-topic="2">Windows</div>
                     <div class="guide-topic" data-topic="3">Browser</div>
-                    <div class="guide-topic" data-topic="4">Settings</div>
-                    <div class="guide-topic" data-topic="5">Other Apps</div>
+                    <div class="guide-topic" data-topic="4">Music Player</div>
+                    <div class="guide-topic" data-topic="5">Settings & Themes</div>
+                    <div class="guide-topic" data-topic="6">Other Apps</div>
                 </div>
-                <div class="guide-body" id="guide-body">
-                    <!-- content filled dynamically by JS -->
-                </div>
+                <div class="guide-body" id="guide-body"></div>
             </div>
         </div>
     </template>
 
-    <!-- JS at the bottom so HTML is parsed first -->
     <script src="script.js"></script>
 </body>
-
 </html>
